@@ -1,0 +1,50 @@
+# Settings for Backend (on Cloud Run).
+# See https://firebase.google.com/docs/app-hosting/configure#cloud-run
+runConfig:
+  minInstances: 0
+  # maxInstances: 100
+  # concurrency: 80
+  # cpu: 1
+  # memoryMiB: 512
+
+# Environment variables and secrets.
+env:
+  - variable: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+    secret: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY@1
+    availability: [BUILD, RUNTIME]
+
+  - variable: NEXT_PUBLIC_POSTHOG_KEY
+    secret: NEXT_PUBLIC_POSTHOG_KEY@1
+    availability: [BUILD, RUNTIME]
+
+  - variable: NEXT_PUBLIC_POSTHOG_HOST
+    secret: NEXT_PUBLIC_POSTHOG_HOST@1
+    availability: [BUILD, RUNTIME]
+
+  - variable: DATABASE_URL
+    secret: DATABASE_URL@1
+    availability: [BUILD, RUNTIME]
+
+  - variable: NEXT_TELEMETRY_DISABLED
+    secret: NEXT_TELEMETRY_DISABLED@1
+    availability: [BUILD, RUNTIME]
+
+  - variable: CLERK_SECRET_KEY
+    secret: CLERK_SECRET_KEY@1
+    availability: [BUILD, RUNTIME]
+
+  - variable: NEXT_PUBLIC_SENTRY_DISABLED
+    secret: NEXT_PUBLIC_SENTRY_DISABLED@1
+    availability: [BUILD, RUNTIME]
+
+  - variable: NEXT_PUBLIC_API_BASE_URL
+    secret: NEXT_PUBLIC_API_BASE_URL@1
+    availability: [BUILD, RUNTIME]
+
+  - variable: NEXT_PUBLIC_USE_MOCK_DATA
+    secret: NEXT_PUBLIC_USE_MOCK_DATA@1
+    availability: [BUILD, RUNTIME]
+
+  - variable: NEXT_PUBLIC_ALLOWED_GAME_ORIGINS
+    secret: NEXT_PUBLIC_ALLOWED_GAME_ORIGINS@1
+    availability: [BUILD, RUNTIME]

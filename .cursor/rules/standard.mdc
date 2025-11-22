@@ -1,0 +1,44 @@
+---
+alwaysApply: false
+---
+Rules:
+
+1. Use Conventional Commit style: `<type>(<scope>): <summary>`.  
+   - Types allowed: feat, fix, refactor, chore, docs, style, perf, test, revert.  
+   - Scope: module or feature changed, in kebab-case (e.g. auth, player, editor).  
+   - Summary: imperative mood (add, fix, remove, update, refactor…), no trailing period, max ~72 characters.
+
+2. If you reuse existing code or fix something that breaks interface, optionally mark breaking changes using `!` in the type/scope (e.g. `feat(auth)!:`) and/or include `BREAKING CHANGE:` in the body.
+
+3. If this commit is cherry-picked from another branch, add a footer line:  
+   `Cherry-Pick-From: <original-branch>@<sha>`
+
+4. If you had to resolve conflicts during cherry-pick or rebase, add a note in the body:  
+   `Conflict-Note: <short description of resolution>`
+
+5. Keep message structured:
+
+   - Title line: `<type>(<scope>): <summary>`  
+   - Blank line  
+   - Body (optional): explain *why* the change is needed, any risk or impact (performance, UI, backward compatibility)  
+   - Footers (optional):  
+     - `Refs:` or `Related:` if any  
+     - `BREAKING CHANGE:` if required  
+     - `Cherry-Pick-From:` if applicable  
+     - Any other metadata (e.g. feature flags, test coverage note)
+
+6. Do **not** include issue tracking IDs unless team policy explicitly wants them. Keep commit messages environment-agnostic; avoid referencing main/develop/staging in commit messages themselves.
+
+7. Output only the commit message (title + body + footers if any). Do not add commentary, explanations, or markup.
+
+Example format:
+
+feat(player): add live waveform renderer
+
+Introduce LiveAudioVisualizer component
+
+Guard with feature flag player.liveWave
+
+Performance: minimal repaint cost
+
+Cherry-Pick-From: feat/player-live-wave@a1b2c3d4

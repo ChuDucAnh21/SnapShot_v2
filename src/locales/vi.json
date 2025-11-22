@@ -1,0 +1,33 @@
+{
+  "RootLayout": {
+    "home_link": "Trang chủ",
+    "about_link": "Giới thiệu",
+    "counter_link": "Bộ đếm",
+    "portfolio_link": "Hồ sơ cá nhân",
+    "sign_in_link": "Đăng nhập",
+    "sign_up_link": "Đăng ký"
+  },
+  "BaseTemplate": {
+    "description": "Mẫu khởi động cho Next.js với Tailwind CSS",
+    "made_with": "Được tạo bởi <author></author>."
+  },
+  "Learn": {
+    "meta_title": "Học",
+    "meta_description": "Trang lộ trình học tập",
+    "sidebar_learn": "Học",
+    "sidebar_profile": "Hồ sơ",
+    "progress_title": "Tiến trình học tập"
+  },
+  "Profile": {
+    "meta_title": "Hồ sơ",
+    "meta_description": "Trang hồ sơ người dùng",
+    "header_following": "Đang theo dõi",
+    "header_followers": "Người theo dõi",
+    "achievements": "Thành tích",
+    "view_all": "XEM TẤT CẢ",
+    "learning_progress": "Tiến trình học",
+    "completed_lessons": "Bài học đã hoàn thành",
+    "total_stars": "Tổng số sao",
+    "completion": "Hoàn thành"
+  }
+}

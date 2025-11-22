@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iruka – Learning Path (Duolingo-like)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root {
+        --bg: #0f1115;
+        --blue: #25c2ff;
+        --blue-dark: #1697c7;
+        --white: #fff;
+        --lock: #3c3f44;
+        --icon-dim: #757a80;
+        --spine: #bae6fd;
+        --gold: #ffc83d;
+        --shadow: rgba(0, 0, 0, 0.25);
+      }
+      body {
+        background: var(--bg);
+      }
+      /* Spine */
+      .spine {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 6px;
+        height: 100%;
+        background: var(--spine);
+        transform: translateX(-50%);
+        z-index: 0;
+        border-radius: 6px;
+      }
+      /* Node circle */
+      .node {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        z-index: 1;
+        width: 72px;
+        height: 72px;
+        border-radius: 9999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: translateX(-50%) translateY(-50%) translateX(var(--offset-x, 0px)) translateY(var(--offset-y, 0px))
+          scale(var(--pop-scale, 1));
+        transition: transform 0.5s ease;
+      }
+      .node--small {
+        width: 60px;
+        height: 60px;
+      }
+      .node__shell {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(155deg, #2fe0ff 10%, #0794c4 70%);
+        box-shadow:
+          0 18px 0 rgba(0, 0, 0, 0.25),
+          0 22px 24px rgba(4, 12, 20, 0.45);
+        overflow: hidden;
+      }
+      .node__shell:before {
+        content: '';
+        position: absolute;
+        inset: 10px 12px 44px 12px;
+        border-radius: inherit;
+        background: rgba(255, 255, 255, 0.22);
+        filter: blur(0px);
+      }
+      .node__shell:after {
+        content: '';
+        position: absolute;
+        inset: -4px;
+        border-radius: inherit;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 42%);
+        opacity: 0.45;
+      }
+      .node__icon {
+        position: relative;
+        z-index: 1;
+        width: 38px;
+        height: 38px;
+        object-fit: contain;
+      }
+      .node--small .node__icon {
+        width: 32px;
+        height: 32px;
+      }
+      .node--status-done .node__shell {
+        background: linear-gradient(150deg, #55f6c7 8%, #00b5d4 70%);
+      }
+      .node--status-current .node__shell {
+        background: linear-gradient(145deg, #ffd05c 12%, #ff8d2b 78%);
+      }
+      .node--status-locked .node__shell {
+        background: linear-gradient(160deg, #3b3e45 6%, #1b1f26 82%);
+        box-shadow:
+          0 14px 0 rgba(0, 0, 0, 0.35),
+          0 18px 24px rgba(0, 0, 0, 0.35);
+      }
+      .node--status-locked .node__icon {
+        opacity: 0.45;
+        filter: grayscale(0.3);
+      }
+      /* Speech bubble */
+      .bubble {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--blue);
+        color: #003748;
+        font-weight: 800;
+        padding: 8px 14px;
+        border-radius: 16px;
+        box-shadow: 0 6px 0 var(--shadow);
+        white-space: nowrap;
+      }
+      .bubble:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        border-width: 8px;
+        border-style: solid;
+      }
+      .bubble--left {
+        left: calc(100% + 12px);
+      }
+      .bubble--left:after {
+        left: -8px;
+        border-color: transparent var(--blue) transparent transparent;
+      }
+      .bubble--right {
+        right: calc(100% + 12px);
+      }
+      .bubble--right:after {
+        right: -8px;
+        border-color: transparent transparent transparent var(--blue);
+      }
+      /* Floaty card shadow like duo */
+      .raised {
+        box-shadow: 0 8px 0 var(--shadow);
+      }
+      /* Simple keyframe for mascot/entry feel (optional) */
+      @keyframes pop {
+        0% {
+          --pop-scale: 0.7;
+          opacity: 0;
+        }
+        80% {
+          --pop-scale: 1.08;
+          opacity: 1;
+        }
+        100% {
+          --pop-scale: 1;
+          opacity: 1;
+        }
+      }
+      .pop {
+        animation: pop 0.6s ease-out both;
+      }
+    </style>
+  </head>
+  <body class="text-white min-h-screen">
+    <!-- Header stats -->
+    <header class="fixed top-0 left-0 right-0 z-30 px-4 pt-3 pb-2 flex items-center gap-4">
+      <div class="text-xs opacity-80">3:20</div>
+      <div class="ml-auto flex items-center gap-4">
+        <div class="flex items-center gap-1">
+          <span class="w-4 h-4 inline-block rounded-sm bg-gradient-to-b from-orange-400 to-orange-600"></span
+          ><span class="text-sm">12</span>
+        </div>
+        <div class="flex items-center gap-1">
+          <span class="w-4 h-4 inline-block rounded-sm bg-cyan-400"></span><span class="text-sm">11245</span>
+        </div>
+        <div class="flex items-center gap-1">
+          <span class="w-4 h-4 inline-block rounded-full bg-red-500"></span><span class="text-sm">5</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="pt-16 pb-24">
+      <!-- Section banner -->
+      <div class="px-4">
+        <div
+          class="bg-[#25C2FF] text-[#003748] rounded-3xl raised flex items-center justify-between px-5 h-16 font-extrabold"
+        >
+          <div>
+            <div class="text-[12px] opacity-80">PHẦN 2, CỬA 10</div>
+            <div class="text-lg">Nói về giờ giấc</div>
+          </div>
+          <div class="w-12 h-12 rounded-2xl bg-[#1AB3F0] flex items-center justify-center text-2xl">☰</div>
+        </div>
+      </div>
+
+      <!-- Path container (narrow) -->
+      <section class="relative mx-auto mt-6" style="width: min(540px, 92vw)" data-path-root>
+        <div class="spine"></div>
+        <!-- Nodes will be injected here -->
+        <div id="nodes" class="relative z-10"></div>
+        <!-- Padding bottom so last items not hidden -->
+        <div class="h-96"></div>
+      </section>
+    </main>
+
+    <!-- Bottom nav -->
+    <nav
+      class="fixed bottom-0 left-0 right-0 z-30 h-[72px] bg-[#14181E]/90 backdrop-blur px-6 flex items-center justify-between"
+    >
+      <div class="w-9 h-9 rounded-2xl bg-[#1AB3F0]"></div>
+      <div class="w-9 h-9 rounded-2xl bg-[#1AB3F0]"></div>
+      <div class="w-9 h-9 rounded-2xl bg-[#1AB3F0] relative">
+        <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+      </div>
+      <div class="w-9 h-9 rounded-2xl bg-[#1AB3F0]"></div>
+      <div class="w-9 h-9 rounded-2xl bg-[#1AB3F0] relative">
+        <span class="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+      </div>
+    </nav>
+
+    <script>
+      // ====== DATA (mô phỏng các node như Duolingo) ======
+      // type: 'star' | 'book' | 'camera' | 'gym'
+      // status: 'current' | 'done' | 'locked'
+      const nodes = [
+        { status: 'done', type: 'book' },
+        { status: 'done', size: 'small' },
+        { status: 'current', type: 'star' },
+        { status: 'locked', type: 'gym' },
+        { status: 'locked', size: 'small' },
+        { status: 'locked', type: 'camera' },
+        { status: 'locked' },
+        { status: 'locked', type: 'book', size: 'small' },
+      ];
+
+      const TOP_OFFSET = 48;
+
+      const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+      const pathRoot = document.querySelector('[data-path-root]');
+      const spine = pathRoot.querySelector('.spine');
+      const nodesRoot = document.getElementById('nodes');
+
+      const LESSON_ICONS = {
+        star: './iruka_icons/lesson-star-48.svg',
+        book: './iruka_icons/lesson-book-48.svg',
+        camera: './iruka_icons/lesson-camera-48.svg',
+        gym: './iruka_icons/lesson-gym-48.svg',
+      };
+
+      const lessonTypes = Object.keys(LESSON_ICONS);
+
+      const pickLessonType = type => {
+        if (type && LESSON_ICONS[type]) return type;
+        const randomIndex = Math.floor(Math.random() * lessonTypes.length);
+        return lessonTypes[randomIndex];
+      };
+
+      const createLessonNode = item => {
+        const status = ['done', 'current', 'locked'].includes(item.status) ? item.status : 'locked';
+        const type = pickLessonType(item.type);
+        const isSmall = item.size === 'small';
+
+        const node = document.createElement('div');
+        node.className = `node node--status-${status} ${isSmall ? 'node--small' : ''} pop`;
+        node.dataset.type = type;
+
+        const shell = document.createElement('div');
+        shell.className = 'node__shell';
+
+        const icon = document.createElement('img');
+        icon.className = 'node__icon';
+        icon.src = LESSON_ICONS[type];
+        icon.alt = `Lesson ${type}`;
+        icon.setAttribute('draggable', 'false');
+
+        shell.appendChild(icon);
+        node.appendChild(shell);
+
+        if (status === 'done') {
+          const stars = document.createElement('div');
+          stars.className = 'absolute -bottom-6 left-1/2 -translate-x-1/2 text-[12px] opacity-80';
+          stars.innerHTML = '⭐ ⭐ ⭐';
+          node.appendChild(stars);
+        }
+
+        if (status === 'current') {
+          const bubble = document.createElement('div');
+          bubble.className = 'bubble bubble--left';
+          bubble.textContent = 'BẮT ĐẦU';
+          node.appendChild(bubble);
+        }
+
+        if (status === 'locked') {
+          const lock = document.createElement('div');
+          lock.className = 'absolute -bottom-6 left-1/2 -translate-x-1/2 text-[12px] opacity-70';
+          lock.innerHTML = '🔒';
+          node.appendChild(lock);
+        }
+
+        nodesRoot.appendChild(node);
+        return node;
+      };
+
+      const nodeElements = nodes.map(createLessonNode);
+
+      const layoutNodes = () => {
+        const containerWidth = pathRoot.clientWidth;
+        const verticalGap = clamp(containerWidth * 0.32, 96, 156);
+        const amplitude = clamp((containerWidth - 72) / 2 - 20, 48, 168);
+        const waveStep = Math.PI / 3.4;
+        const wavePhase = Math.PI / 4;
+
+        nodeElements.forEach((node, index) => {
+          const y = TOP_OFFSET + index * verticalGap;
+          const x = Math.sin(index * waveStep + wavePhase) * amplitude;
+
+          node.style.setProperty('--offset-x', `${x.toFixed(1)}px`);
+          node.style.setProperty('--offset-y', `${y.toFixed(1)}px`);
+
+          const bubble = node.querySelector('.bubble');
+          if (bubble) {
+            const bubbleRight = x > 0;
+            bubble.classList.toggle('bubble--right', bubbleRight);
+            bubble.classList.toggle('bubble--left', !bubbleRight);
+          }
+        });
+
+        const lastCenterY = TOP_OFFSET + (nodeElements.length - 1) * verticalGap;
+        const firstRadius = nodeElements[0]?.offsetHeight ? nodeElements[0].offsetHeight / 2 : 36;
+        const lastRadius = nodeElements[nodeElements.length - 1]?.offsetHeight
+          ? nodeElements[nodeElements.length - 1].offsetHeight / 2
+          : 36;
+        const spineTop = Math.max(TOP_OFFSET - firstRadius - 16, 0);
+        const spineBottom = lastCenterY + lastRadius + 24;
+
+        spine.style.top = `${spineTop}px`;
+        spine.style.height = `${spineBottom - spineTop}px`;
+        nodesRoot.style.height = `${spineBottom}px`;
+        pathRoot.style.minHeight = `${spineBottom + 160}px`;
+      };
+
+      layoutNodes();
+
+      let resizeHandle = null;
+      window.addEventListener('resize', () => {
+        if (resizeHandle) return;
+        resizeHandle = requestAnimationFrame(() => {
+          layoutNodes();
+          resizeHandle = null;
+        });
+      });
+    </script>
+  </body>
+</html>

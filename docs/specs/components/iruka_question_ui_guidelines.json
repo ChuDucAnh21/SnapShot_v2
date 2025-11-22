@@ -1,0 +1,256 @@
+{
+  "meta": {
+    "id": "618da128-80a0-4182-96d3-3de9d0f3d07c",
+    "name": "iruka_question_ui_guidelines",
+    "version": "1.0.0",
+    "created_at": "2025-10-05T12:14:26.706575",
+    "scope": "Kids Math 4–8 | Next.js 15 FE | Zustand state | A11y baseline",
+    "note": "Guidelines and contracts only. No UI components included."
+  },
+  "layout_shell": {
+    "regions": ["header", "content", "control", "sr_announcer"],
+    "header": {
+      "includes": ["progress_bar", "hearts_optional", "streak_optional", "title_optional"],
+      "aria": {
+        "role_progressbar": true,
+        "aria_values": ["aria-valuenow", "aria-valuemin", "aria-valuemax"],
+        "label": "Tiến độ bài"
+      }
+    },
+    "content": {
+      "aria": {
+        "role": "region",
+        "aria_labelledby": "question-title-id"
+      },
+      "guidelines": [
+        "Chữ to, ít chữ; ưu tiên hình ảnh",
+        "Hit target tối thiểu 44x44pt (khuyến nghị 56px)",
+        "Prefetch ảnh cho câu kế tiếp"
+      ]
+    },
+    "control": {
+      "buttons": ["submit", "hint", "skip"],
+      "keyboard_shortcuts": {
+        "submit": "Enter",
+        "hint": "H",
+        "skip": "K"
+      },
+      "states": ["enabled", "disabled", "loading"]
+    },
+    "sr_announcer": {
+      "aria_live": "polite",
+      "messages": ["answer_correct", "answer_wrong", "moved_next"]
+    }
+  },
+  "accessibility": {
+    "focus": {
+      "visible_ring": true,
+      "contrast_ratio_min": 3.0,
+      "order": ["header", "content", "control"],
+      "post_feedback_focus": "control.primary_next_button"
+    },
+    "roles": {
+      "single_choice": {
+        "container": "radiogroup",
+        "item": "radio"
+      },
+      "multi_choice": {
+        "container": "group",
+        "item": "checkbox"
+      },
+      "listbox_alt": {
+        "container": "listbox",
+        "aria_multiselectable": true
+      }
+    },
+    "keyboard": {
+      "tab_cycle": true,
+      "roving_tabindex": true,
+      "arrows_navigation": true,
+      "space_enter_select": true
+    },
+    "screen_reader_copy": {
+      "answer_correct": "Trả lời đúng",
+      "answer_wrong": "Trả lời chưa đúng",
+      "moved_next": "Chuyển sang câu {index} trên {total}"
+    }
+  },
+  "interactions": {
+    "contract_events": ["onAnswer", "onSubmit", "onHint", "onSkip", "onNext"],
+    "auto_submit_policy": {
+      "select_one": true,
+      "drag_match": true,
+      "others_default": false
+    },
+    "validation": {
+      "submit_disabled_when": ["answerBuffer == null", "answerBuffer invalid for type"]
+    }
+  },
+  "keypad_numeric_guidelines": {
+    "layout": "3x4 (1-9, 0, delete, enter)",
+    "props_contract": {
+      "value": "string",
+      "maxLen": "number",
+      "onChange": "fn",
+      "onEnter": "fn?"
+    },
+    "a11y": {
+      "role": "group",
+      "buttons_have_aria_label": true
+    },
+    "mobile": ["buttons >= 56px", "spacing >= 12px"],
+    "behavior": ["Enter triggers submit", "Delete removes last digit", "Clamp to expected range (e.g., 0–20)"]
+  },
+  "choice_grid_guidelines": {
+    "selection_modes": ["single", "multiple"],
+    "props_contract": {
+      "items": "Array<{id,text?,image?}>",
+      "selected": "string[]",
+      "onSelect": "fn(ids[])"
+    },
+    "a11y": {
+      "single": {
+        "role": "radiogroup/radio"
+      },
+      "multiple": {
+        "role": "group/checkbox"
+      },
+      "roving_tabindex": true
+    },
+    "design": ["min card size 96x96px", "tap area >= 56px", "show selected state clearly"]
+  },
+  "header_guidelines": {
+    "progress": {
+      "type": "percent_bar",
+      "min": 0,
+      "max": 100
+    },
+    "hearts": {
+      "optional": true,
+      "max_display": 5
+    },
+    "streak": {
+      "icon": "flame",
+      "increment_on_correct": true
+    },
+    "i18n_labels": {
+      "progress": "Câu {index}/{total}",
+      "hearts": "Tim: {count}",
+      "streak": "Chuỗi: {count}"
+    }
+  },
+  "control_bar_guidelines": {
+    "button_order": ["submit", "hint", "skip"],
+    "primary_button": "submit",
+    "disable_rules": ["submit disabled if no valid answer"],
+    "feedback_navigation": {
+      "next_label": "Tiếp tục",
+      "focus_after_open": true
+    }
+  },
+  "audio_hook_stub": {
+    "api": ["playPrompt(text?)", "playCorrect()", "playWrong()"],
+    "default_impl": "Web Speech API (speechSynthesis) for prompt; no-op for SFX",
+    "notes": ["allow DI to swap with real TTS/SFX", "debounce overlapping sounds"]
+  },
+  "telemetry": {
+    "events": ["lesson_start", "question_view", "answer_submit", "answer_result", "lesson_complete"],
+    "fields_per_event": {
+      "question_view": ["lessonId", "questionId", "index", "ts"],
+      "answer_submit": ["attemptIndex", "usedHint", "latencyMs", "ts"],
+      "answer_result": ["isCorrect", "starsAwarded", "ts"]
+    }
+  },
+  "state_contract_integration": {
+    "required_state_keys": ["phase", "index", "total", "answerBuffer", "attemptIndex", "hintUsed", "stars", "streak"],
+    "phases": [
+      "INTRO",
+      "QUESTION_ACTIVE",
+      "CHECKING",
+      "FEEDBACK_CORRECT",
+      "FEEDBACK_INCORRECT",
+      "HINT",
+      "SKIP_CONFIRM",
+      "COMPLETED"
+    ],
+    "phase_to_ui_expectations": {
+      "INTRO": ["show start CTA", "disable submit"],
+      "QUESTION_ACTIVE": ["enable inputs", "auto_submit per policy"],
+      "CHECKING": ["lock inputs"],
+      "FEEDBACK_CORRECT": ["show success, focus Next"],
+      "FEEDBACK_INCORRECT": ["show retry/hint/skip"],
+      "HINT": ["display short hint; back returns to question"],
+      "SKIP_CONFIRM": ["sheet with confirm/cancel"],
+      "COMPLETED": ["summary view with back CTA"]
+    }
+  },
+  "styling_tokens": {
+    "sizes": {
+      "tap_min_px": 56,
+      "gap_min_px": 12,
+      "radius_px": 16
+    },
+    "typography": {
+      "title_px": 22,
+      "body_px": 18,
+      "answer_px_min": 18
+    },
+    "colors": {
+      "action": "#0EA5E9",
+      "correct": "#22C55E",
+      "retry": "#F97316",
+      "bg_muted": "#F1F5F9"
+    },
+    "motion": {
+      "correct_glow_ms": 300,
+      "shake_ms": 150,
+      "easing": "ease-out"
+    }
+  },
+  "localization_keys": {
+    "actions": {
+      "submit": "Nộp bài",
+      "hint": "Gợi ý",
+      "skip": "Bỏ qua",
+      "next": "Tiếp tục"
+    },
+    "feedback": {
+      "correct": "Đúng rồi!",
+      "incorrect": "Chưa đúng"
+    },
+    "a11y": {
+      "movedNext": "Chuyển sang câu {index} trên {total}",
+      "answerCorrect": "Trả lời đúng",
+      "answerWrong": "Trả lời sai"
+    }
+  },
+  "migration_tips": [
+    "Giữ renderer hiện có; chỉ chuẩn hoá props `onChange`, `value`, `autoSubmit`",
+    "Gộp header rời rạc về một HeaderBar chung (không đổi style hệ thống nếu không cần)",
+    "Bổ sung SrAnnouncer (aria-live) mà không đụng tới logic chấm điểm",
+    "Đặt keyboard shortcuts ở ControlBar để không xung đột các input con",
+    "Tách audio hook để có thể bật/tắt TTS theo từng màn"
+  ],
+  "testing_checklist": {
+    "a11y": [
+      "Hoàn thành câu bằng bàn phím",
+      "Screen reader đọc đúng trật tự và live updates",
+      "Focus luôn hiển thị rõ"
+    ],
+    "touch": ["Hit area không bị miss-tap", "Scroll không chặn tương tác tap/drag"],
+    "performance": ["Prefetch ảnh câu kế tiếp", "Không rò rỉ event listeners giữa các câu"],
+    "telemetry": ["answer_submit có latencyMs, attemptIndex, usedHint", "answer_result có isCorrect và starsAwarded"]
+  },
+  "examples": {
+    "select_one_flow": {
+      "auto_submit": true,
+      "submit_disabled": false,
+      "sr_messages": ["answer_correct", "moved_next"]
+    },
+    "type_number_flow": {
+      "auto_submit": false,
+      "submit_disabled": "value == ''",
+      "keypad_enter_submits": true
+    }
+  }
+}

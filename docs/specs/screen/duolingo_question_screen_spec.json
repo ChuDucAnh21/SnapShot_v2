@@ -1,0 +1,321 @@
+{
+  "meta": {
+    "title": "Duolingo — In-Lesson Question Screen (Dark)",
+    "version": "1.0.0",
+    "created_at": "2025-09-26T06:45:25.323120Z",
+    "viewport_ref": [1440, 900]
+  },
+  "theme": {
+    "palette": {
+      "bg": "#0F1A20",
+      "panel": "#132129",
+      "panel-2": "#0C171D",
+      "text": "#EAF2F5",
+      "muted": "#B9C7CF",
+      "muter": "#8FA2AE",
+      "brand-green": "#7FE318",
+      "brand-green-darker": "#5DC001",
+      "blue": "#1CB0F6",
+      "blue-2": "#47BDF7",
+      "red": "#FF4B4B",
+      "yellow": "#FFC800",
+      "chip": "#222E36",
+      "chip-border": "#2F3F49",
+      "progress-track": "#2A3A43",
+      "progress-fill": "#6AC21A",
+      "divider": "rgba(255,255,255,0.08)",
+      "shadow": "rgba(0,0,0,0.35)",
+      "purple": "#C37DFF",
+      "purple-ink": "#CFAAFF"
+    },
+    "radii": {
+      "sm": 8,
+      "md": 12,
+      "lg": 16,
+      "xl": 20,
+      "pill": 999
+    },
+    "typo": {
+      "display": {
+        "size": 40,
+        "weight": 900,
+        "lh": 1.15
+      },
+      "h2": {
+        "size": 24,
+        "weight": 800,
+        "lh": 1.25
+      },
+      "body": {
+        "size": 18,
+        "weight": 600,
+        "lh": 1.5
+      },
+      "chip": {
+        "size": 18,
+        "weight": 800,
+        "lh": 1.2
+      },
+      "btn": {
+        "size": 18,
+        "weight": 900
+      },
+      "small": {
+        "size": 14,
+        "weight": 600
+      }
+    },
+    "shadows": {
+      "panel": "0 16px 0 rgba(0,0,0,0.35)"
+    }
+  },
+  "layout": {
+    "zones": {
+      "topbar": {
+        "height": 72,
+        "padding": [16, 40],
+        "align": "center-vertical"
+      },
+      "content": {
+        "padding": [0, 120],
+        "gap": 20
+      },
+      "bottom_bar": {
+        "height": 104,
+        "border_top": "1px solid palette.divider",
+        "padding": [0, 40]
+      }
+    }
+  },
+  "components": {
+    "TopBar": {
+      "left_close": {
+        "icon": "x",
+        "size": 28,
+        "color": "#3C4A52",
+        "hover": "#637682"
+      },
+      "progress": {
+        "track_color": "palette.progress-track",
+        "fill_color": "palette.progress-fill",
+        "height": 16,
+        "radius": 999,
+        "width": 1020,
+        "aria": {
+          "label": "Lesson progress"
+        }
+      },
+      "hearts": {
+        "badge": {
+          "diameter": 64,
+          "bg": "#112028",
+          "shadow": "0 10px 0 rgba(0,0,0,0.3)"
+        },
+        "icon": {
+          "name": "heart",
+          "color": "palette.red"
+        },
+        "value_typo": "typo.body"
+      }
+    },
+    "Prompt": {
+      "kicker": {
+        "icon": "new-word",
+        "text": "NEW WORD",
+        "color": "palette.purple-ink"
+      },
+      "title": {
+        "text": "Write this in English",
+        "typo": "typo.display"
+      },
+      "stimulus": {
+        "variants": [
+          {
+            "type": "text",
+            "content": "Chào!",
+            "tooltip": {
+              "text": "Remember that you can always hover over words to see what they mean.",
+              "bg": "#14232C",
+              "radius": 12,
+              "arrow": true
+            }
+          },
+          {
+            "type": "audio-bubble",
+            "content_text": "Chào Minh, Vy!",
+            "hotwords": ["Minh", "Vy"],
+            "icon_button": {
+              "icon": "speaker",
+              "size": 24,
+              "bg": "#17303B",
+              "border": "1px solid rgba(255,255,255,0.1)"
+            }
+          }
+        ]
+      }
+    },
+    "AnswerArea": {
+      "drop_zone": {
+        "y_gap": 28,
+        "line_height": 2,
+        "divider_color": "palette.divider"
+      },
+      "bank": {
+        "wrap": true,
+        "gap": 16,
+        "chip": {
+          "bg": "palette.chip",
+          "border": "1px solid palette.chip-border",
+          "radius": 16,
+          "height": 56,
+          "padding": [0, 18],
+          "typo": "typo.chip",
+          "states": {
+            "hover": {
+              "translateY": -2
+            },
+            "pressed": {
+              "translateY": 0
+            },
+            "selected": {
+              "bg": "#30434D",
+              "outline": "2px solid rgba(255,255,255,0.08)"
+            }
+          }
+        }
+      }
+    },
+    "BottomBar": {
+      "buttons": {
+        "skip": {
+          "label": "SKIP",
+          "style": "ghost",
+          "size": {
+            "w": 180,
+            "h": 72
+          },
+          "radius": "radii.xl",
+          "border": "1px solid palette.divider"
+        },
+        "check": {
+          "label": "CHECK",
+          "size": {
+            "w": 220,
+            "h": 72
+          },
+          "radius": "radii.xl",
+          "style": "primary",
+          "primary": {
+            "enabled": {
+              "bg": "palette.brand-green",
+              "text": "#0F1A20"
+            },
+            "disabled": {
+              "bg": "#2C3B45",
+              "text": "#81929D"
+            }
+          }
+        }
+      }
+    },
+    "Feedback": {
+      "correct_banner": {
+        "icon": "check-circle",
+        "text": "Nicely done!",
+        "bg": "#112028",
+        "text_color": "palette.text"
+      },
+      "continue_button": {
+        "label": "CONTINUE",
+        "bg": "palette.brand-green",
+        "hover": "palette.brand-green-darker",
+        "radius": 16,
+        "size": {
+          "w": 230,
+          "h": 72
+        }
+      }
+    },
+    "HeartsModal": {
+      "visible_when": "first_entry_or_abtest",
+      "backdrop": "rgba(0,0,0,0.6)",
+      "panel": {
+        "bg": "palette.panel",
+        "radius": 16,
+        "shadow": "shadows.panel",
+        "padding": 32,
+        "width": 560
+      },
+      "header_hearts": {
+        "count": 5,
+        "icon_color": "palette.red"
+      },
+      "title": {
+        "text": "Each mistake costs 1 heart!",
+        "typo": "typo.h2"
+      },
+      "body": {
+        "text": "Stay sharp and focused to keep your hearts. You got this!",
+        "typo": "typo.body"
+      },
+      "cta": {
+        "label": "KEEP GOING",
+        "bg": "palette.blue",
+        "hover": "palette.blue-2",
+        "radius": 14,
+        "size": {
+          "w": 320,
+          "h": 64
+        }
+      }
+    }
+  },
+  "states": {
+    "progress_value": 0.08,
+    "hearts_left": 5,
+    "check_enabled": false,
+    "selected_tokens": [],
+    "logic": {
+      "token_click": ["append_to_answer(token)", "update_check_enabled()"],
+      "skip_click": ["emit('lesson:skip')", "go_next_screen()"],
+      "check_click": [
+        "if correct: show_correct_banner(); enable_continue()",
+        "else: decrement_hearts(); shake_wrong_tokens()"
+      ]
+    }
+  },
+  "a11y": {
+    "aria": {
+      "token": "Answer choice. Press to add to answer.",
+      "drop_zone": "Answer area. Reorder with arrow keys.",
+      "check_button": "Check answer",
+      "skip_button": "Skip",
+      "close_lesson": "Exit lesson"
+    },
+    "focus_order": ["close", "progress", "hearts", "title", "stimulus", "tokens...", "skip", "check"]
+  },
+  "telemetry": {
+    "events": ["token_clicked", "check_enabled", "answer_checked", "modal_shown", "hearts_decremented"]
+  },
+  "screen_samples": [
+    {
+      "id": "s1_disabled_check",
+      "prompt_variant": "text",
+      "bank_tokens": ["Vy", "am", "I", "Hi", "Hello"],
+      "answer": [],
+      "check_enabled": false
+    },
+    {
+      "id": "s2_modal_hearts",
+      "show_modal": true,
+      "progress_value": 0.12,
+      "hearts_left": 5
+    },
+    {
+      "id": "s3_audio_bubble",
+      "prompt_variant": "audio-bubble",
+      "bank_tokens": ["Minh", "yes", "passport", "Hi", "Vy", "am", "Hello"],
+      "progress_value": 0.16
+    }
+  ]
+}

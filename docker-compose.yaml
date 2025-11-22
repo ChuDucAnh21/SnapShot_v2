@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    # Health check để đảm bảo container hoạt động tốt
+    healthcheck:
+      test: [CMD, curl, -f, 'http://localhost:3000/api/health']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    # Restart policy cho production
+    restart: unless-stopped
+    # Resource limits để tránh container sử dụng quá nhiều tài nguyên
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+    # Nếu cần ENV runtime khác, thêm ở đây:
+    # environment:
+    #   NEXT_PUBLIC_API_BASE_URL: "https://your-api"
+    #   DATABASE_URL: "your-database-url"
+    #   NEXTAUTH_SECRET: "your-secret"
+    #   NEXTAUTH_URL: "https://your-domain.com"

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Blitz Kids</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(120deg, #ffecd2 0%, #fcb69f 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .game-container {
+            background: #fffbea;
+            border-radius: 30px;
+            padding: 30px 15px 20px 15px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 10px 32px rgba(64,64,0,0.13);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        .timer {
+            font-size: 20px;
+            font-weight: bold;
+            color: #e57373;
+        }
+        .combo {
+            font-size: 16px;
+            color: #fbc02d;
+            font-weight: bold;
+        }
+        .question {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            margin: 22px 0;
+            color: #4e5154;
+            min-height: 80px;
+        }
+        .question img {
+            width: 44px;
+            height: 44px;
+            margin: 2px;
+            vertical-align: middle;
+        }
+        .choices {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin: 14px 0 22px 0;
+        }
+        .choice-btn {
+            font-size: 26px;
+            background: #fff3e0;
+            border: 2px solid #ffe0b2;
+            border-radius: 50%;
+            width: 62px;
+            height: 62px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #ff9800;
+            box-shadow: 0 3px 6px rgba(255,168,0,0.12);
+            transition: all 0.15s;
+        }
+        .choice-btn:hover, .choice-btn:focus {
+            background: #ffecb3;
+            border-color: #ffd54f;
+            outline: none;
+            transform: scale(1.07);
+        }
+        .choice-btn:active {
+            background: #ffd54f;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1.5px solid #ffe082;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 22px;
+            font-weight: bold;
+            color: #fbc02d;
+        }
+        .stat-label {
+            font-size: 13px;
+            color: #ac8e32;
+        }
+        .feedback {
+            position: fixed;
+            top: 48%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 72px;
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 10;
+            animation: pop 0.54s ease-out;
+        }
+        .feedback.correct {
+            color: #43a047;
+            text-shadow: 0 2px 10px #84e184;
+        }
+        .feedback.wrong {
+            color: #e53935;
+            text-shadow: 0 2px 10px #faafaf;
+        }
+        @keyframes pop {
+            0% { transform: translate(-50%, -50%) scale(0.18); opacity: 0.9;}
+            60% { transform: translate(-50%, -50%) scale(1.2);}
+            95% { transform: translate(-50%, -50%) scale(1);}
+            100% { opacity:0; }
+        }
+        .game-over {
+            text-align: center;
+            padding: 28px 8px;
+        }
+        .game-over h2 {
+            font-size: 28px;
+            color: #444;
+            margin-bottom: 13px;
+        }
+        .final-score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #ff9800;
+            margin: 16px 0 10px 0;
+        }
+        .hidden {
+            display: none;
+        }
+        .start-btn {
+            display: block;
+            margin: 0 auto 8px auto;
+            background: #fbc02d;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 18px;
+            padding: 14px 32px;
+            cursor: pointer;
+            transition: background 0.16s;
+            box-shadow: 0 4px 16px #ffe08248;
+        }
+        .start-btn:hover {
+            background: #ffd54f;
+        }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <div id="game-screen">
+        <div class="header">
+            <div class="timer" id="timer">30s</div>
+            <div class="combo" id="combo">✌️ x0</div>
+        </div>
+        <div class="question" id="question">
+            Nhấn Bắt đầu để chơi <br>
+            <button class="start-btn" id="start-btn" onclick="startGame()">Bắt đầu</button>
+        </div>
+        <div class="choices" id="choices" style="visibility:hidden"></div>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value" id="score">0</div>
+                <div class="stat-label">Điểm</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="correct">0</div>
+                <div class="stat-label">Đúng</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="total">0</div>
+                <div class="stat-label">Tổng</div>
+            </div>
+        </div>
+    </div>
+    <div id="game-over-screen" class="game-over hidden">
+        <h2>Hết giờ!</h2>
+        <div class="final-score" id="final-score">0</div>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value" id="final-correct">0</div>
+                <div class="stat-label">Đúng</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="final-total">0</div>
+                <div class="stat-label">Tổng</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value" id="accuracy">0%</div>
+                <div class="stat-label">Chính xác</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Math game state for kids
+    let score = 0, correct = 0, total = 0, combo = 0;
+    let timeLeft = 30, timer = null, startTime = null, gameStarted = false;
+    let currentQuestion = null;
+    let irukaHost = null;
+
+    // Cute question emoji sets
+    const emojiSets = [
+        ["🍎","🍏","🍌","🍒","🍇","🍓"],
+        ["🐻","🐶","🐱","🐭","🐰","🐼"],
+        ["🚗","🚌","🚓","🚑","🚒","🚕"],
+        ["🌺","🌸","🍀","🌻","🌹"],
+        ["🦆","🐥","🐦","🐤","🦉"]
+    ];
+    const objectNames = {
+        "🍎":"Quả táo", "🍏":"Táo xanh", "🍌":"Quả chuối", "🍒":"Quả cherry",
+        "🍇":"Nho", "🍓":"Dâu tây",
+        "🐻":"Gấu", "🐶":"Chó", "🐱":"Mèo", "🐭":"Chuột", "🐰":"Thỏ", "🐼":"Gấu trúc",
+        "🚗":"Xe ô tô", "🚌":"Xe buýt", "🚓":"Xe cảnh sát", "🚑":"Xe cứu thương", "🚒":"Xe cứu hỏa", "🚕":"Taxi",
+        "🌺":"Hoa", "🌸":"Hoa đào", "🍀":"Cỏ ba lá", "🌻":"Hướng dương", "🌹":"Hoa hồng",
+        "🦆":"Vịt", "🐥":"Vịt con", "🐦":"Chim", "🐤":"Chim non", "🦉":"Cú mèo"
+    };
+
+    function $(id) { return document.getElementById(id); }
+
+    // Host SDK Bridge (like before)
+    window.addEventListener('message', (e) => {
+        if (e.data && e.data.type === 'INIT') {
+            irukaHost = {
+                ready: () => window.parent.postMessage({sdkVersion:'1.0.0', source:'game', type:'READY'}, '*'),
+                reportScore: (newScore, delta) => window.parent.postMessage({
+                    sdkVersion:'1.0.0', source:'game', type:'SCORE_UPDATE', payload: {score:newScore, delta}
+                }, '*'),
+                complete: (data)=>window.parent.postMessage({
+                    sdkVersion:'1.0.0', source:'game', type:'COMPLETE', payload:data
+                }, '*')
+            };
+            resetGameUI();
+            irukaHost.ready();
+        } else if (e.data && e.data.type === 'START') {
+            if (!gameStarted) startTimerAndGame();
+        }
+    });
+
+    function resetGameUI() {
+        score = correct = total = combo = 0;
+        timeLeft = 30;
+        gameStarted = false;
+        $('game-over-screen').classList.add('hidden');
+        $('game-screen').classList.remove('hidden');
+        $('timer').textContent = '30s';
+        $('score').textContent = '0';
+        $('correct').textContent = '0';
+        $('total').textContent = '0';
+        $('combo').textContent = '✌️ x0';
+        $('choices').style.visibility = "hidden";
+        $('question').innerHTML = `Nhấn Bắt đầu để chơi <br><button class="start-btn" id="start-btn" onclick="startGame()">Bắt đầu</button>`;
+    }
+
+    function startGame() {
+        if (gameStarted) return;
+        gameStarted = true;
+        score = correct = total = combo = 0;
+        timeLeft = 30;
+        $('score').textContent = 0;
+        $('correct').textContent = 0;
+        $('total').textContent = 0;
+        $('combo').textContent = '✌️ x0';
+        $('question').innerHTML = "";
+        $('choices').style.visibility = "visible";
+        $('start-btn') && ($('start-btn').style.display = "none");
+        startTime = Date.now();
+        generateQuestion();
+        if (!timer) startTimer();
+    }
+
+    function startTimerAndGame() {
+        if (!gameStarted) startGame();
+        if (!timer) startTimer();
+    }
+
+    function startTimer() {
+        $('timer').textContent = timeLeft + 's';
+        timer = setInterval(()=>{
+            timeLeft--;
+            $('timer').textContent = timeLeft+"s";
+            if (timeLeft <= 0) endGame();
+        }, 1000);
+    }
+
+    function randomInt(a, b) { return Math.floor(Math.random() * (b-a+1)) + a; }
+
+    // Cute math problem for kids: Counting objects, basic add/subtract, limited numbers (up to 10)
+    function generateQuestion() {
+        // Choose emoji set and one symbol
+        const set = emojiSets[randomInt(0, emojiSets.length-1)];
+        const symbol = set[randomInt(0, set.length-1)];
+        let type = Math.random() < 0.5 ? 'count' : 'add_sub';
+
+        // 60% counting, 40% add/sub
+        if (type === 'count') {
+            // Counting: "Có bao nhiêu 🍌?" with images
+            const n = randomInt(2, 9);
+            currentQuestion = {
+                display: `Có bao nhiêu ${objectNames[symbol]}? <br>` + '<span>' + (Array(n).fill(`<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${emojiToTwemoji(symbol)}.svg" alt="${symbol}">`).join('')) + '</span>',
+                answer: n,
+                choices: shuffle(generateChoices(n, 10)),
+                explanation: 'Đếm số ' + objectNames[symbol]
+            };
+        } else {
+            // Simple addition/subtraction with images
+            let add = Math.random()<0.5;
+            let a = randomInt(1, 5), b = randomInt(1, 5);
+            if (!add) { // Ensure a > b
+                [a, b] = b > a ? [b, a] : [a, b];
+            }
+            let imgsA = Array(a).fill(`<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${emojiToTwemoji(symbol)}.svg" alt="${symbol}">`).join('');
+            let imgsB = Array(b).fill(`<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${emojiToTwemoji(symbol)}.svg" alt="${symbol}">`).join('');
+            let display, ans, exp;
+            if (add) {
+                display = `Có ${a} ${objectNames[symbol]} <span>${imgsA}</span> <br>và thêm ${b} ${objectNames[symbol]} <span>${imgsB}</span><br><b>Tổng cộng có bao nhiêu?</b>`;
+                ans = a + b;
+                exp = `Cộng: ${a} + ${b}`;
+            } else {
+                display = `Có ${a+b} ${objectNames[symbol]} <span>${Array(a+b).fill(`<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/${emojiToTwemoji(symbol)}.svg" alt="${symbol}">`).join('')}</span> <br>&minus; Lấy đi ${b} <span>${imgsB}</span><br><b>Còn lại bao nhiêu?</b>`;
+                ans = a;
+                exp = `Trừ: ${(a+b)} - ${b}`;
+            }
+            currentQuestion = {
+                display,
+                answer: ans,
+                choices: shuffle(generateChoices(ans, 10)),
+                explanation: exp
+            };
+        }
+        $('question').innerHTML = currentQuestion.display;
+        renderChoices(currentQuestion.choices);
+    }
+
+    // Emoji to codepoint for twemoji
+    function emojiToTwemoji(emoji) {
+        // Based on twemoji's guide, e.g. 🍎 -> 1f34e
+        return Array.from(emoji)
+            .map(c=>c.codePointAt(0).toString(16))
+            .join('-');
+    }
+
+    // Generate 3 choices, one is answer, rest random close (up to maxN)
+    function generateChoices(ans, maxN) {
+        let arr = [ans];
+        while(arr.length < 3) {
+            let d = ans + randomInt(-2,2);
+            if (d < 1) d = 1;
+            if (d > maxN) d = maxN;
+            if (!arr.includes(d)) arr.push(d);
+        }
+        return arr;
+    }
+    function shuffle(a) {
+        for(let i=a.length-1;i>0;i--) {
+            const j = Math.floor(Math.random() * (i+1));
+            [a[i],a[j]]=[a[j],a[i]];
+        }
+        return a;
+    }
+
+    function renderChoices(choices) {
+        const ch = $('choices');
+        ch.innerHTML = "";
+        ch.style.visibility = "visible";
+        for(let ans of choices) {
+            let btn = document.createElement('button');
+            btn.className = 'choice-btn';
+            btn.textContent = ans;
+            btn.onclick = ()=>checkAnswer(ans);
+            ch.appendChild(btn);
+        }
+    }
+
+    function checkAnswer(userAnswer) {
+        total++;
+        $('total').textContent = total;
+        let isCorrect = (userAnswer === currentQuestion.answer);
+        if(isCorrect) {
+            correct++;
+            combo++;
+            let points = 5 + combo*2;
+            score += points;
+            $('score').textContent = score;
+            $('correct').textContent = correct;
+            $('combo').textContent = `✌️ x${combo}`;
+            if(irukaHost) irukaHost.reportScore(score, points);
+            showFeedback(true);
+        } else {
+            combo = 0;
+            score = Math.max(0, score-3);
+            $('score').textContent = score;
+            $('combo').textContent = `✌️ x${combo}`;
+            if(irukaHost) irukaHost.reportScore(score, -3);
+            showFeedback(false);
+        }
+        // Next question after 0.55s
+        setTimeout(generateQuestion, 550);
+    }
+
+    function showFeedback(correct) {
+        let d = document.createElement('div');
+        d.className = 'feedback ' + (correct ? 'correct' : 'wrong');
+        d.textContent = correct ? "🎉" : "🚫";
+        document.body.appendChild(d);
+        setTimeout(()=>document.body.removeChild(d), 540);
+    }
+
+    function endGame() {
+        clearInterval(timer); timer = null;
+        gameStarted = false;
+        let timeMs = Date.now() - startTime;
+        let accuracy = total ? Math.round(correct/total*100) : 0;
+        $('game-screen').classList.add('hidden');
+        $('game-over-screen').classList.remove('hidden');
+        $('final-score').textContent = score;
+        $('final-correct').textContent = correct;
+        $('final-total').textContent = total;
+        $('accuracy').textContent = accuracy+"%";
+        // Report complete stats
+        irukaHost && irukaHost.complete({
+            score, timeMs,
+            extras: { correct, total, accuracy, combo }
+        });
+        setTimeout(()=>resetGameUI(), 2500);
+    }
+
+    // For manual test, allow Space to start/restart if not started
+    document.addEventListener('keydown', function(e){
+        if(e.code==="Space" && !gameStarted){
+            startGame();
+        }
+    });
+</script>
+</body>
+</html>

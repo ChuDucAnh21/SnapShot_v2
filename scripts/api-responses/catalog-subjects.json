@@ -1,0 +1,74 @@
+[
+  {
+    "subject_code": "art",
+    "subject_name": "ART",
+    "courses": [
+      {
+        "course_code": "art-34",
+        "course_name": "art-34",
+        "age_band": "34",
+        "tracks_count": 1
+      },
+      {
+        "course_code": "art-45",
+        "course_name": "art-45",
+        "age_band": "45",
+        "tracks_count": 1
+      },
+      {
+        "course_code": "art-56",
+        "course_name": "art-56",
+        "age_band": "56",
+        "tracks_count": 2
+      }
+    ]
+  },
+  {
+    "subject_code": "math",
+    "subject_name": "MATH",
+    "courses": [
+      {
+        "course_code": "math-34",
+        "course_name": "math-34",
+        "age_band": "34",
+        "tracks_count": 2
+      },
+      {
+        "course_code": "math-45",
+        "course_name": "math-45",
+        "age_band": "45",
+        "tracks_count": 2
+      },
+      {
+        "course_code": "math-56",
+        "course_name": "math-56",
+        "age_band": "56",
+        "tracks_count": 2
+      }
+    ]
+  },
+  {
+    "subject_code": "vi",
+    "subject_name": "VI",
+    "courses": [
+      {
+        "course_code": "vi-34",
+        "course_name": "vi-34",
+        "age_band": "34",
+        "tracks_count": 3
+      },
+      {
+        "course_code": "vi-45",
+        "course_name": "vi-45",
+        "age_band": "45",
+        "tracks_count": 2
+      },
+      {
+        "course_code": "vi-56",
+        "course_name": "vi-56",
+        "age_band": "56",
+        "tracks_count": 1
+      }
+    ]
+  }
+]

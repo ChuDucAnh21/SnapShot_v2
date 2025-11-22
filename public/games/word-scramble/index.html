@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Scramble</title>
+    <style>
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Comic Sans MS', 'Arial Rounded MT Bold', Arial, sans-serif;
+            background: linear-gradient(135deg, #ffe2ec 0%, #fff9c4 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 8vw 4vw;
+        }
+
+        .game-container {
+            background: #fffbe7;
+            border-radius: 22px;
+            padding: 3vw 4vw;
+            max-width: 38rem;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(253, 173, 158, 0.19);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2vw;
+        }
+
+        .category {
+            font-size: 1.2rem;
+            color: #fc886d;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 0.33em;
+        }
+
+        .word-count {
+            font-size: 1.1rem;
+            color: #7a5dad;
+            font-weight: 500;
+        }
+
+        .scrambled-word {
+            text-align: center;
+            font-size: 2.4rem;
+            font-weight: bold;
+            letter-spacing: 12px;
+            color: #4d4196;
+            margin: 5vw 0 2vw 0;
+            min-height: 2.7em;
+        }
+
+        .animal-img {
+            display: block;
+            margin: 0 auto 0.7em auto;
+            max-width: 130px;
+            max-height: 100px;
+        }
+
+        .hint-text {
+            text-align: center;
+            font-size: 1.06rem;
+            color: #7a5dad;
+            margin-bottom: 1.1em;
+            font-weight: 500;
+        }
+
+        .answer-slots {
+            display: flex;
+            justify-content: center;
+            gap: 7px;
+            margin: 2vw 0;
+            flex-wrap: wrap;
+        }
+
+        .answer-slot {
+            width: 3.1em;
+            height: 3.2em;
+            border: 3px solid #b1bbe1;
+            border-radius: 12px;
+            background: #fffefa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4d4196;
+            user-select: none;
+            box-shadow: 0 0.1em 0.5em #e9e1fc17;
+            transition: background 0.12s, border 0.12s;
+        }
+        .answer-slot.filled {
+            border-color: #ffbb31;
+            background: #fff4da;
+        }
+
+        .letter-pool {
+            display: flex;
+            justify-content: center;
+            gap: 7px;
+            margin: 2vw 0 1vw 0;
+            flex-wrap: wrap;
+        }
+
+        .letter-btn {
+            width: 3.1em;
+            height: 3.2em;
+            border: 2.5px solid #cca6fc;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #fcdffb 0%, #e2e6fc 100%);
+            color: #593993;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0.2em 0.5em #c59ffb27;
+            margin-bottom: 6px;
+            transition: background 0.16s, transform 0.13s, box-shadow 0.14s;
+            outline: none;
+            user-select: none;
+        }
+
+        .letter-btn:active {
+            background: #fae5cd;
+        }
+        .letter-btn.used {
+            opacity: 0.32;
+            pointer-events: none;
+            background: #f3f2f0;
+            border-style: dotted;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 4vw;
+            justify-content: center;
+        }
+        .btn {
+            flex: 1;
+            padding: 1em 0;
+            border: none;
+            border-radius: 13px;
+            font-size: 1.15rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.14s;
+            letter-spacing: 0.5px;
+        }
+        .btn-hint {
+            background: #fff3ab;
+            color: #987000;
+            border: 2px solid #fed437;
+        }
+        .btn-clear {
+            background: #ffd4d4;
+            color: #c52828;
+            border: 2px solid #fa908a;
+        }
+        .btn-submit {
+            background: #bbfacf;
+            color: #16370f;
+            border: 2px solid #3ddb6d;
+        }
+        .btn:active {
+            transform: scale(0.97);
+            filter: brightness(0.97);
+        }
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 5vw;
+            padding-top: 2vw;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #fda4ae;
+        }
+        .stat-label {
+            font-size: 1rem;
+            color: #987000;
+            margin-top: 5px;
+        }
+        .game-over {
+            text-align: center;
+            padding: min(9vw,36px) min(3vw,18px);
+        }
+        .game-over h2 {
+            font-size: 2.3rem;
+            color: #745de9;
+            margin-bottom: 1em;
+        }
+        .final-score {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #fd7f82;
+            margin: 18px 0 10px 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .feedback {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            background: #fff8ec;
+            padding: 26px 36px;
+            border-radius: 18px;
+            box-shadow: 0 7px 28px rgba(0,0,0,0.22);
+            font-size: 2rem;
+            font-weight: bold;
+            z-index: 1000;
+            transition: opacity 0.2s;
+            text-align: center;
+        }
+        .feedback.correct { color: #42b277;}
+        .feedback.wrong  { color: #f45445;}
+        /* Responsive for mobile */
+        @media (max-width: 600px) {
+            html { font-size: 15px; }
+            body { padding: 2vw;}
+            .game-container {padding: 5vw 1vw;}
+            .scrambled-word {font-size: 2rem; letter-spacing: 0.6em; min-height: 2.3em;}
+            .answer-slot, .letter-btn {
+                width: 2.6em;
+                height: 2.7em;
+                font-size: 1.45rem;
+            }
+            .animal-img { max-width: 100px; max-height: 80px;}
+            .actions .btn { font-size: 0.99rem; padding: 11px 0;}
+            .stat-label {font-size: 0.95rem;}
+            .stat-value {font-size: 1.08rem;}
+            .final-score { font-size: 2.1rem;}
+            .game-over h2 {font-size: 1.4rem;}
+        }
+
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div id="game-screen">
+            <div class="header">
+                <div class="category" id="category">🐾 Con vật</div>
+                <div class="word-count">Câu <span id="current">1</span>/<span id="total">5</span></div>
+            </div>
+            <img id="animal-img" class="animal-img" src="" alt="animal" style="display:none"/>
+
+            <div class="scrambled-word" id="scrambled-word">____</div>
+            <div class="hint-text" id="hint-text">Xếp đúng các chữ nhé!</div>
+
+            <div class="answer-slots" id="answer-slots"></div>
+
+            <div class="letter-pool" id="letter-pool"></div>
+
+            <div class="actions">
+                <button class="btn btn-hint" id="hint-btn" onclick="useHint()">💡 Gợi ý (<span id="hints-left">2</span>)</button>
+                <button class="btn btn-clear" onclick="clearAnswer()">Xóa</button>
+                <button class="btn btn-submit" onclick="checkAnswer()">Kiểm tra</button>
+            </div>
+
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="score">0</div>
+                    <div class="stat-label">Điểm</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="correct">0</div>
+                    <div class="stat-label">Đúng</div>
+                </div>
+            </div>
+        </div>
+        <div id="game-over-screen" class="game-over hidden">
+            <h2>👏 Con giỏi quá!</h2>
+            <div class="final-score" id="final-score">0</div>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="final-correct">0</div>
+                    <div class="stat-label">Đúng</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="final-total">0</div>
+                    <div class="stat-label">Câu</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Danh sách từ cho trẻ nhỏ: từ ngắn (3-6 chữ), động vật quen thuộc
+        // Thêm hình ảnh minh họa động vật (nên dùng ảnh SVG/png nhỏ gọn)
+        const WORDS = {
+            animals: [
+                { word: 'CAT', hint: 'Con mèo', img: 'https://cdn.jsdelivr.net/gh/Iruka-Lab/assets/animal-cat.png' },
+                { word: 'DOG', hint: 'Con chó', img: 'https://cdn.jsdelivr.net/gh/Iruka-Lab/assets/animal-dog.png' },
+                { word: 'LION', hint: 'Con sư tử', img: 'https://cdn.jsdelivr.net/gh/Iruka-Lab/assets/animal-lion.png' },
+                { word: 'FISH', hint: 'Con cá', img: 'https://cdn.jsdelivr.net/gh/Iruka-Lab/assets/animal-fish.png' },
+                { word: 'DUCK', hint: 'Con vịt', img: 'https://cdn.jsdelivr.net/gh/Iruka-Lab/assets/animal-duck.png' }
+            ]
+        };
+
+        // Game state
+        let currentWordIndex = 0;
+        let words = shuffle([...WORDS.animals]);
+        let currentWord = null;
+        let userAnswer = [];
+        let score = 0;
+        let correct = 0;
+        let hintsLeft = 2;
+        let startTime = null;
+        let gameStarted = false;
+
+        // Iruka SDK
+        let irukaHost = null;
+
+        window.addEventListener('message', (e) => {
+            if (e.data && e.data.type === 'INIT') {
+                irukaHost = {
+                    ready: () => {
+                        window.parent.postMessage({
+                            sdkVersion: '1.0.0',
+                            source: 'game',
+                            type: 'READY'
+                        }, '*');
+                    },
+                    reportScore: (newScore) => {
+                        window.parent.postMessage({
+                            sdkVersion: '1.0.0',
+                            source: 'game',
+                            type: 'SCORE_UPDATE',
+                            payload: { score: newScore }
+                        }, '*');
+                    },
+                    complete: (data) => {
+                        window.parent.postMessage({
+                            sdkVersion: '1.0.0',
+                            source: 'game',
+                            type: 'COMPLETE',
+                            payload: data
+                        }, '*');
+                    }
+                };
+                loadWord();
+                irukaHost.ready();
+            } else if (e.data && e.data.type === 'START') {
+                if (!gameStarted) {
+                    startTime = Date.now();
+                    gameStarted = true;
+                }
+            }
+        });
+
+        function shuffle(arr) {
+            // Fisher-Yates
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function loadWord() {
+            if (currentWordIndex >= words.length) {
+                endGame();
+                return;
+            }
+            currentWord = words[currentWordIndex];
+            userAnswer = [];
+
+            // Update UI số câu
+            document.getElementById('current').textContent = currentWordIndex + 1;
+            document.getElementById('total').textContent = words.length;
+
+            // Hint tiếng Việt & hình động vật
+            document.getElementById('hint-text').textContent = currentWord.hint;
+            const imgEl = document.getElementById('animal-img');
+            if (currentWord.img) {
+                imgEl.src = currentWord.img;
+                imgEl.style.display = 'block';
+                imgEl.alt = currentWord.hint;
+            } else {
+                imgEl.style.display = 'none';
+            }
+
+            // Xáo trộn chữ và tạo pool
+            const scrambled = scrambleWord(currentWord.word);
+            document.getElementById('scrambled-word').textContent = scrambled.split('').join(' ');
+
+            // Slots cho từng chữ
+            const slotsContainer = document.getElementById('answer-slots');
+            slotsContainer.innerHTML = '';
+            for (let i = 0; i < currentWord.word.length; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'answer-slot';
+                slot.dataset.index = i;
+                // Click để xóa ngược vị trí nào đó
+                slot.onclick = () => removeLetter(i);
+                slotsContainer.appendChild(slot);
+            }
+            // Tạo nút các chữ cho chọn
+            const poolContainer = document.getElementById('letter-pool');
+            poolContainer.innerHTML = '';
+            scrambled.split('').forEach((letter, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'letter-btn';
+                btn.textContent = letter;
+                btn.dataset.index = i;
+                btn.onclick = () => selectLetter(letter, i);
+                poolContainer.appendChild(btn);
+            });
+
+            // Đặt lại nút gợi ý
+            document.getElementById('hints-left').textContent = hintsLeft;
+            document.getElementById('hint-btn').disabled = hintsLeft === 0;
+        }
+
+        function scrambleWord(word) {
+            // Không xáo trộn nếu từ quá ngắn
+            if(word.length <= 3) return word;
+            let arr = word.split('');
+            let shuffled;
+            do {
+                shuffled = shuffle([...arr]);
+            } while(shuffled.join('') === word);
+            return shuffled.join('');
+        }
+
+        function selectLetter(letter, index) {
+            if (userAnswer.length >= currentWord.word.length) return;
+            // Không cho chọn vị trí đã dùng
+            if (userAnswer.find(a => a.originalIndex === index)) return;
+            userAnswer.push({ letter, originalIndex: index });
+
+            // Update UI
+            const slots = document.querySelectorAll('.answer-slot');
+            slots[userAnswer.length - 1].textContent = letter;
+            slots[userAnswer.length - 1].classList.add('filled');
+
+            const buttons = document.querySelectorAll('.letter-btn');
+            buttons[index].classList.add('used');
+        }
+
+        // Cho trẻ dễ thao tác: Bấm vào chữ đã lắp trên slot để gỡ nó ra
+        function removeLetter(i) {
+            if (typeof userAnswer[i] === 'undefined') return;
+            // Chỉ allow xóa chữ cuối
+            if (i !== userAnswer.length - 1) return;
+
+            const removed = userAnswer.pop();
+            // Cập nhật slot
+            const slots = document.querySelectorAll('.answer-slot');
+            slots[i].textContent = '';
+            slots[i].classList.remove('filled');
+            // Trả lại nút chữ đó
+            const buttons = document.querySelectorAll('.letter-btn');
+            if (removed) {
+                buttons[removed.originalIndex].classList.remove('used');
+            }
+        }
+
+        function clearAnswer() {
+            userAnswer = [];
+            document.querySelectorAll('.answer-slot').forEach(slot => {
+                slot.textContent = '';
+                slot.classList.remove('filled');
+            });
+            document.querySelectorAll('.letter-btn').forEach(btn => {
+                btn.classList.remove('used');
+            });
+        }
+
+        // Gợi ý: tự động lắp chữ tiếp theo đúng giúp trẻ
+        function useHint() {
+            if (hintsLeft <= 0) return;
+            hintsLeft--;
+            document.getElementById('hints-left').textContent = hintsLeft;
+
+            // Reveal tiếp chữ đúng tiếp theo
+            const currentLength = userAnswer.length;
+            if (currentLength < currentWord.word.length) {
+                const nextLetter = currentWord.word[currentLength];
+                // Tìm đúng nút chưa dùng
+                const buttons = document.querySelectorAll('.letter-btn:not(.used)');
+                for (let btn of buttons) {
+                    if (btn.textContent === nextLetter) {
+                        btn.click();
+                        break;
+                    }
+                }
+            }
+            if (hintsLeft === 0) {
+                document.getElementById('hint-btn').disabled = true;
+            }
+        }
+
+        function checkAnswer() {
+            if (userAnswer.length !== currentWord.word.length) {
+                showFeedback('Chưa đủ chữ!', false);
+                return;
+            }
+            const answer = userAnswer.map(a => a.letter).join('');
+            if (answer === currentWord.word) {
+                // Right! ++
+                correct++;
+                score += 20;
+
+                showFeedback(randomCongrats(), true);
+
+                document.getElementById('correct').textContent = correct;
+                document.getElementById('score').textContent = score;
+
+                if (irukaHost) irukaHost.reportScore(score);
+
+                setTimeout(() => {
+                    currentWordIndex++;
+                    loadWord();
+                }, 1250);
+            } else {
+                // Sai: reset lựa chọn, không trừ điểm
+                showFeedback('Chưa đúng, thử lại nhé!', false);
+                setTimeout(clearAnswer, 900);
+            }
+        }
+
+        function randomCongrats() {
+            const arr = [
+                "Chính xác! 👍", "Tuyệt quá!", "Giỏi lắm!", "Đúng rồi!", "Xuất sắc! 🌟"
+            ];
+            return arr[Math.floor(Math.random()*arr.length)];
+        }
+
+        function showFeedback(message, isCorrect) {
+            const feedback = document.createElement('div');
+            feedback.className = 'feedback ' + (isCorrect ? 'correct' : 'wrong');
+            feedback.textContent = message;
+            document.body.appendChild(feedback);
+            setTimeout(() => {
+                feedback.style.opacity = .09;
+            }, 800);
+            setTimeout(() => {
+                if(document.body.contains(feedback))
+                    document.body.removeChild(feedback);
+            }, 1500);
+        }
+
+        function endGame() {
+            const timeMs = Date.now() - (startTime || Date.now());
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('game-over-screen').classList.remove('hidden');
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('final-correct').textContent = correct;
+            document.getElementById('final-total').textContent = words.length;
+            if (irukaHost) {
+                irukaHost.complete({
+                    score: score,
+                    timeMs: timeMs,
+                    extras: {
+                        correct: correct,
+                        total: words.length,
+                        hintsUsed: 2 - hintsLeft
+                    }
+                });
+            }
+        }
+
+        // Tự khởi tạo nếu không chạy trong host (dev) (tương thích Iruka SDK)
+        if (window == window.top) {
+            setTimeout(() => {
+                try {
+                    loadWord();
+                } catch (e) {}
+            }, 40);
+        }
+
+    </script>
+</body>
+</html>

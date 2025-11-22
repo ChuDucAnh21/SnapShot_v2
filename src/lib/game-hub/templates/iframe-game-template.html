@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Iruka iFrame Game Template</title>
+  <style>
+    html, body, #root {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    #root {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    .game-container {
+      text-align: center;
+      padding: 2rem;
+    }
+    .score {
+      font-size: 3rem;
+      font-weight: bold;
+      margin: 1rem 0;
+    }
+    button {
+      background: white;
+      color: #667eea;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: scale(1.05);
+    }
+    button:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div class="game-container">
+      <h1>🎮 Game Template</h1>
+      <p>Click để tăng điểm!</p>
+      <div class="score" id="score">0</div>
+      <button id="clickBtn">Nhấn vào đây</button>
+    </div>
+  </div>
+
+  <script type="module">
+    // Import SDK (trong production, serve từ CDN)
+    // import { createIframeBridge } from 'https://cdn.iruka.games/sdk/iframe-game.js';
+
+    // Inline SDK for template
+    const SDK_VERSION = '1.0.0';
+
+    function createIframeBridge(opts) {
+      const origin = opts.targetOrigin ?? '*';
+
+      function post(evt) {
+        const msg = {
+          sdkVersion: SDK_VERSION,
+          source: 'game',
+          type: evt.type,
+          payload: evt.payload,
+        };
+        window.parent?.postMessage(msg, origin);
+      }
+
+      function onMessage(e) {
+        const data = e.data;
+        if (!data || data.source !== 'hub' || !data.type) return;
+        const cmd = { type: data.type, payload: data.payload };
+        opts.onCommand(cmd);
+      }
+
+      window.addEventListener('message', onMessage);
+
+      return {
+        dispose() { window.removeEventListener('message', onMessage); },
+        ready() { post({ type: 'READY' }); },
+        loading(progress) { post({ type: 'LOADING', payload: { progress } }); },
+        reportScore(score, delta) { post({ type: 'SCORE_UPDATE', payload: { score, delta } }); },
+        reportProgress(data) { post({ type: 'PROGRESS', payload: data }); },
+        complete(data) { post({ type: 'COMPLETE', payload: data }); },
+        error(message, detail) { post({ type: 'ERROR', payload: { message, detail } }); },
+        requestSave(data) { post({ type: 'REQUEST_SAVE', payload: data }); },
+        requestLoad() { post({ type: 'REQUEST_LOAD' }); },
+        telemetry(data) { post({ type: 'TELEMETRY', payload: data }); },
+      };
+    }
+
+    // Game logic
+    let ctx = null;
+    let running = false;
+    let startTs = 0;
+    let score = 0;
+
+    const scoreEl = document.getElementById('score');
+    const clickBtn = document.getElementById('clickBtn');
+
+    const hub = createIframeBridge({
+      onCommand(cmd) {
+        console.log('Received command:', cmd.type);
+
+        if (cmd.type === 'INIT') {
+          ctx = cmd.payload;
+          console.log('Game initialized with context:', ctx);
+          hub.ready();
+        }
+
+        if (cmd.type === 'START') {
+          running = true;
+          startTs = performance.now();
+          console.log('Game started');
+        }
+
+        if (cmd.type === 'PAUSE') {
+          running = false;
+          console.log('Game paused');
+        }
+
+        if (cmd.type === 'RESUME') {
+          running = true;
+          console.log('Game resumed');
+        }
+
+        if (cmd.type === 'QUIT') {
+          running = false;
+          const timeMs = performance.now() - startTs;
+          hub.complete({ score, timeMs });
+          console.log('Game quit, score:', score, 'time:', timeMs);
+        }
+
+        if (cmd.type === 'RESIZE') {
+          console.log('Game resize:', cmd.payload);
+        }
+      }
+    });
+
+    // Click handler
+    clickBtn.addEventListener('click', () => {
+      if (!running) return;
+
+      score += 10;
+      scoreEl.textContent = score;
+      hub.reportScore(score, 10);
+
+      // Send telemetry every 5 clicks
+      if (score % 50 === 0) {
+        hub.telemetry({
+          event: 'milestone',
+          score: score,
+        });
+      }
+    });
+
+    console.log('Game template loaded, waiting for INIT...');
+  </script>
+</body>
+</html>
+

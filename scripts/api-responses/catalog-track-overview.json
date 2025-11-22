@@ -1,0 +1,375 @@
+{
+  "code": "vi-34-sgk-be-lam-quen-voi-chu-cai",
+  "name": "Bé làm quen với chữ cái",
+  "units": [
+    {
+      "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-u1-chu-e-truong-mam-non",
+      "title": "CHỦ ĐỀ: TRƯỜNG MẦM NON",
+      "index_in_track": 1,
+      "lessons": [
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l1",
+          "title": "O, o (Phát âm \"o\")",
+          "stt_label": "1",
+          "anchors": [
+            "letter-o",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l2",
+          "title": "Ô, ô (Phát âm \"ô\")",
+          "stt_label": "2",
+          "anchors": [
+            "letter-o-circumflex",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l3",
+          "title": "Ơ, ơ (Phát âm \"ơ\")",
+          "stt_label": "3",
+          "anchors": [
+            "letter-o-horn",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-u2-chu-e-ban-than",
+      "title": "CHỦ ĐỀ: BẢN THÂN",
+      "index_in_track": 2,
+      "lessons": [
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l4",
+          "title": "A, a (Phát âm \"a\")",
+          "stt_label": "4",
+          "anchors": [
+            "letter-a",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l5",
+          "title": "Ă, ă (Phát âm \"ă\")",
+          "stt_label": "5",
+          "anchors": [
+            "letter-a-breve",
+            "skill-cat",
+            "skill-cat-dan",
+            "skill-dan",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l6",
+          "title": "Â, â (Phát âm \"â\")",
+          "stt_label": "6",
+          "anchors": [
+            "letter-a-circumflex",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-u3-chu-e-gia-inh",
+      "title": "CHỦ ĐỀ: GIA ĐÌNH",
+      "index_in_track": 3,
+      "lessons": [
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l7",
+          "title": "E, e (Phát âm \"e\")",
+          "stt_label": "7",
+          "anchors": [
+            "letter-e",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l8",
+          "title": "Ê, ê (Phát âm \"ê\")",
+          "stt_label": "8",
+          "anchors": [
+            "letter-e-circumflex",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l9",
+          "title": "U, u (Phát âm \"u\")",
+          "stt_label": "9",
+          "anchors": [
+            "letter-u",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l10",
+          "title": "Ư, ư (Phát âm \"ư\")",
+          "stt_label": "10",
+          "anchors": [
+            "letter-u-horn",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-u4-chu-e-nghe-nghiep",
+      "title": "CHỦ ĐỀ: NGHỀ NGHIỆP",
+      "index_in_track": 4,
+      "lessons": [
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l11",
+          "title": "I, i (Phát âm \"i\")",
+          "stt_label": "11",
+          "anchors": [
+            "letter-i",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l12",
+          "title": "T, t (Phát âm \"tờ\")",
+          "stt_label": "12",
+          "anchors": [
+            "letter-t",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l13",
+          "title": "C, c (Phát âm \"cờ\")",
+          "stt_label": "13",
+          "anchors": [
+            "letter-c",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-u5-chu-e-the-gioi-ong-vat",
+      "title": "CHỦ ĐỀ: THẾ GIỚI ĐỘNG VẬT",
+      "index_in_track": 5,
+      "lessons": [
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l14",
+          "title": "B, b (Phát âm \"bờ\")",
+          "stt_label": "14",
+          "anchors": [
+            "letter-b",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l15",
+          "title": "D, d (Phát âm \"dờ\")",
+          "stt_label": "15",
+          "anchors": [
+            "letter-d",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l16",
+          "title": "Đ, đ (Phát âm \"đờ\")",
+          "stt_label": "16",
+          "anchors": [
+            "letter-d-stroke",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-u6-chu-e-the-gioi-thuc-vat",
+      "title": "CHỦ ĐỀ: THẾ GIỚI THỰC VẬT",
+      "index_in_track": 6,
+      "lessons": [
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l17",
+          "title": "M, m (Phát âm \"mờ\")",
+          "stt_label": "17",
+          "anchors": [
+            "letter-m",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l18",
+          "title": "N, n (Phát âm \"nờ\")",
+          "stt_label": "18",
+          "anchors": [
+            "letter-n",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l19",
+          "title": "L, l (Phát âm \"lờ\")",
+          "stt_label": "19",
+          "anchors": [
+            "letter-l",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l20",
+          "title": "H, h (Phát âm \"hờ\")",
+          "stt_label": "20",
+          "anchors": [
+            "letter-h",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l21",
+          "title": "K, k (Phát âm \"ca\")",
+          "stt_label": "21",
+          "anchors": [
+            "letter-k",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-u7-chu-e-giao-thong",
+      "title": "CHỦ ĐỀ: GIAO THÔNG",
+      "index_in_track": 7,
+      "lessons": [
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l22",
+          "title": "P, p (Phát âm \"pờ\")",
+          "stt_label": "22",
+          "anchors": [
+            "letter-p",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l23",
+          "title": "Q, q (Phát âm \"quờ\")",
+          "stt_label": "23",
+          "anchors": [
+            "letter-q",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-u8-chu-e-nuoc-va-hien-tuong-tu-nhien",
+      "title": "CHỦ ĐỀ: NƯỚC VÀ HIỆN TƯỢNG TỰ NHIÊN",
+      "index_in_track": 8,
+      "lessons": [
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l24",
+          "title": "G, g (Phát âm \"gờ\")",
+          "stt_label": "24",
+          "anchors": [
+            "letter-g",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l25",
+          "title": "Y, y (Phát âm \"y\")",
+          "stt_label": "25",
+          "anchors": [
+            "letter-y",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l26",
+          "title": "S, s (Phát âm \"sờ\")",
+          "stt_label": "26",
+          "anchors": [
+            "letter-s",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l27",
+          "title": "X, x (Phát âm \"xờ\")",
+          "stt_label": "27",
+          "anchors": [
+            "letter-x",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-u9-chu-e-que-huong-at-nuoc",
+      "title": "CHỦ ĐỀ: QUÊ HƯƠNG, ĐẤT NƯỚC",
+      "index_in_track": 9,
+      "lessons": [
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l28",
+          "title": "V, v (Phát âm \"vờ\")",
+          "stt_label": "28",
+          "anchors": [
+            "letter-v",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        },
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l29",
+          "title": "R, r (Phát âm \"rờ\")",
+          "stt_label": "29",
+          "anchors": [
+            "letter-r",
+            "skill-gach-chan-chu",
+            "skill-to-mau"
+          ]
+        }
+      ]
+    },
+    {
+      "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-u10-on-tap-tong-hop",
+      "title": "ÔN TẬP TỔNG HỢP",
+      "index_in_track": 10,
+      "lessons": [
+        {
+          "code": "vi-34-sgk-be-lam-quen-voi-chu-cai-l30",
+          "title": "Ôn tập: Tìm chữ",
+          "stt_label": "30",
+          "anchors": []
+        }
+      ]
+    }
+  ]
+}

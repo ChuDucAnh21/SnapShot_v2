@@ -1,0 +1,406 @@
+{
+  "meta": {
+    "title": "Early Math Question Spec (Ages 1–5)",
+    "version": "1.0.0",
+    "created_at": "2025-09-26T06:57:51.548069Z",
+    "pedagogy_note": "Designed for pre-K learners: minimal text, large tap targets, voiced prompts, playful feedback."
+  },
+  "age_bands": {
+    "1-2": ["Object counting 1–3", "Match identical shapes/colors", "Tap-to-reveal"],
+    "3": ["Counting 1–5", "Compare more/less", "Shape names (circle, square, triangle)", "1-step patterns ABAB"],
+    "4": ["Counting 1–10", "Addition within 5 with objects", "Number tracing 1–5", "Spatial: above/below"],
+    "5": [
+      "Addition/subtraction within 10 (with visuals)",
+      "Number line 0–10",
+      "Complete patterns (AAB/ABB)",
+      "Sort by attribute (size/color)"
+    ]
+  },
+  "theme": {
+    "palette": {
+      "bg": "#0F1A20",
+      "panel": "#132129",
+      "text": "#F5FAFD",
+      "muted": "#B9C7CF",
+      "good": "#7FE318",
+      "good-2": "#A9E34B",
+      "blue": "#43B0FF",
+      "red": "#FF6B6B",
+      "yellow": "#FFD166",
+      "purple": "#C37DFF",
+      "chip": "#21313A",
+      "chip-border": "#2E3F48"
+    },
+    "radii": {
+      "lg": 20,
+      "xl": 28,
+      "pill": 999
+    },
+    "tap_target_min": 64,
+    "font_scale": {
+      "title": 38,
+      "large": 28,
+      "body": 20,
+      "small": 16
+    }
+  },
+  "layout": {
+    "zones": {
+      "topbar": {
+        "height": 88,
+        "padding": [16, 28],
+        "focus_mode": true
+      },
+      "content": {
+        "padding": [0, 80],
+        "gap": 24
+      },
+      "bottom_bar": {
+        "height": 124,
+        "padding": [0, 40]
+      }
+    }
+  },
+  "components": {
+    "TopBar": {
+      "left_close": {
+        "icon": "x",
+        "size": 32,
+        "color": "#4B5D67"
+      },
+      "progress": {
+        "height": 18,
+        "radius": 999,
+        "track": "#2A3A43",
+        "fill": "#7FE318",
+        "width": 900
+      },
+      "lives": {
+        "style": "stickers",
+        "icons": ["⭐", "⭐", "⭐"],
+        "note": "Use stars/hearts sparingly; avoid strong punishment loops for toddlers."
+      }
+    },
+    "Prompt": {
+      "voice_over_required": true,
+      "kicker": {
+        "icon": "sparkle",
+        "text": "LET'S COUNT",
+        "color": "#FFD166"
+      },
+      "title": {
+        "text": "How many apples?",
+        "size": "title"
+      },
+      "assistive": {
+        "show_finger_hint": true,
+        "hint_delay_ms": 4000
+      }
+    },
+    "Stimuli": {
+      "types": {
+        "objects_grid": {
+          "cols": 5,
+          "gap": 16,
+          "max_size": 120,
+          "example_icons": ["apple", "banana", "ball", "car"]
+        },
+        "number_line": {
+          "range": [0, 10],
+          "tick": 10,
+          "hotspot_radius": 28
+        },
+        "shape_board": {
+          "shapes": ["circle", "square", "triangle", "rectangle"],
+          "palette": ["#FF9AA2", "#FFDAC1", "#B5EAD7", "#C7CEEA"]
+        },
+        "tracing_pad": {
+          "stroke_width": 14,
+          "glow": true
+        }
+      }
+    },
+    "AnswerArea": {
+      "patterns": {
+        "tap_count": {
+          "instruction_vo": "Tap the number that matches",
+          "choices_style": {
+            "kind": "big-cards",
+            "count": 3,
+            "card_size": [160, 120],
+            "radius": "radii.xl"
+          }
+        },
+        "drag_to_bucket": {
+          "instruction_vo": "Drag to the matching bucket",
+          "buckets": [
+            {
+              "label": "3",
+              "id": "n3"
+            },
+            {
+              "label": "4",
+              "id": "n4"
+            }
+          ],
+          "snap": {
+            "radius": 36
+          }
+        },
+        "number_line_pick": {
+          "instruction_vo": "Tap the spot on the number line",
+          "feedback": {
+            "show_jump": true
+          }
+        },
+        "choice_big": {
+          "instruction_vo": "Pick the right answer",
+          "show_labels": false
+        },
+        "tracing": {
+          "instruction_vo": "Trace the number",
+          "target": "5"
+        }
+      },
+      "chips_common": {
+        "bg": "theme.palette.chip",
+        "border": "1px solid theme.palette.chip-border",
+        "radius": "theme.radii.xl",
+        "height": 72,
+        "padding": [0, 22]
+      }
+    },
+    "BottomBar": {
+      "buttons": {
+        "repeat_audio": {
+          "icon": "speaker",
+          "size": 28,
+          "tooltip": "Hear again"
+        },
+        "hint": {
+          "icon": "lightbulb",
+          "size": 28
+        },
+        "check": {
+          "label": "CHECK",
+          "size": {
+            "w": 240,
+            "h": 84
+          },
+          "radius": "radii.xl",
+          "enabled_bg": "#7FE318",
+          "disabled_bg": "#2C3B45"
+        }
+      }
+    },
+    "Feedback": {
+      "positive": {
+        "banner": {
+          "text": "Great job!",
+          "emoji": "🎉"
+        },
+        "particles": {
+          "type": "confetti",
+          "duration_ms": 900
+        },
+        "sticker_reward": {
+          "pool": ["🐣", "🧸", "🚗", "🍎"]
+        }
+      },
+      "negative": {
+        "banner": {
+          "text": "Let's try again",
+          "emoji": "🙂"
+        },
+        "nudge": {
+          "type": "shake",
+          "ms": 220
+        },
+        "scaffold": {
+          "example_flash": true
+        }
+      }
+    },
+    "ParentalGate": {
+      "when": "exit_or_purchase",
+      "mechanic": "hold-press-3s or simple math 2+3",
+      "ui": {
+        "dial": true,
+        "text": "For grown-ups"
+      }
+    }
+  },
+  "a11y": {
+    "audio_on_by_default": true,
+    "captions_toggle": true,
+    "focus_ring_high_contrast": true,
+    "min_touch_target": 64,
+    "language": "en-US"
+  },
+  "question_schema": {
+    "fields": ["id", "age_band", "type", "prompt_vo", "stimulus", "answer", "distractors", "scoring", "next_rules"],
+    "types": {
+      "tap_count": {
+        "stimulus": {
+          "objects_grid": {
+            "icon": "apple",
+            "count": 4
+          }
+        },
+        "answer": 4,
+        "distractors": [3, 5],
+        "scoring": {
+          "on_correct": {
+            "stars": 1
+          },
+          "on_wrong": {
+            "retry": true
+          }
+        },
+        "next_rules": {
+          "correct": "advance",
+          "wrong": "give_hint_then_retry"
+        }
+      },
+      "drag_to_bucket": {
+        "stimulus": {
+          "objects_grid": {
+            "icon": "ball",
+            "count": 7
+          }
+        },
+        "answer": {
+          "bucket_id": "n7"
+        },
+        "distractors": [
+          {
+            "bucket_id": "n6"
+          }
+        ]
+      },
+      "number_line_pick": {
+        "stimulus": {
+          "number_line": {
+            "range": [0, 10]
+          }
+        },
+        "answer": 6,
+        "distractors": [5, 7]
+      },
+      "choice_big": {
+        "stimulus": {
+          "equation": "2 + 1 = ?"
+        },
+        "answer": 3,
+        "distractors": [2, 4]
+      },
+      "tracing": {
+        "stimulus": {
+          "glyph": "5"
+        },
+        "answer": {
+          "shape_path": "M10,20 Q60,0 110,20 ..."
+        },
+        "scoring": {
+          "min_completion_pct": 0.7
+        }
+      }
+    }
+  },
+  "samples": [
+    {
+      "id": "bc504148-8c5f-4a7e-a300-85965c751587",
+      "age_band": "3",
+      "type": "tap_count",
+      "prompt_vo": "How many apples do you see? Tap the number.",
+      "stimulus": {
+        "objects_grid": {
+          "icon": "apple",
+          "count": 4
+        }
+      },
+      "choices": [3, 4, 5],
+      "answer": 4
+    },
+    {
+      "id": "978054c0-6186-40ab-ae92-b4330925c134",
+      "age_band": "4",
+      "type": "choice_big",
+      "prompt_vo": "What is two plus one?",
+      "stimulus": {
+        "equation": "2 + 1 = ?"
+      },
+      "choices": [2, 3, 4],
+      "answer": 3
+    },
+    {
+      "id": "6d2d3351-1210-49d7-8d98-b649ca676e5e",
+      "age_band": "5",
+      "type": "number_line_pick",
+      "prompt_vo": "Tap the number six on the line.",
+      "stimulus": {
+        "number_line": {
+          "range": [0, 10]
+        }
+      },
+      "answer": 6
+    },
+    {
+      "id": "fc81d9f5-7dd7-4765-a6cb-d335d2fcab73",
+      "age_band": "4",
+      "type": "drag_to_bucket",
+      "prompt_vo": "Drag all the groups with four dots into the box with number four.",
+      "stimulus": {
+        "objects_grid": [
+          {
+            "icon": "dot",
+            "count": 3,
+            "id": "g1"
+          },
+          {
+            "icon": "dot",
+            "count": 4,
+            "id": "g2"
+          },
+          {
+            "icon": "dot",
+            "count": 5,
+            "id": "g3"
+          }
+        ]
+      },
+      "buckets": [
+        {
+          "label": "4",
+          "id": "n4"
+        }
+      ],
+      "answer": {
+        "targets": ["g2"]
+      }
+    },
+    {
+      "id": "41e6aecc-ab9f-40b4-b604-04b633f3c0c0",
+      "age_band": "4",
+      "type": "tracing",
+      "prompt_vo": "Trace the number five.",
+      "stimulus": {
+        "glyph": "5"
+      },
+      "answer": {
+        "min_completion_pct": 0.7
+      }
+    }
+  ],
+  "states_and_logic": {
+    "check_enabled": "true when an interaction produces a valid answer (tap/drag/tracing >= threshold)",
+    "attempts": {
+      "max": 2,
+      "after_max": "show_scaffold_or_switch_easier"
+    },
+    "adaptive_rules": [
+      "If two wrong in a row → reduce choices to 2 and enable finger hint",
+      "If perfect streak of 3 → increase difficulty within band (e.g., add one to result)"
+    ]
+  }
+}

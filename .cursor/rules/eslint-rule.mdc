@@ -1,0 +1,25 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+Tech Stack:
+- Nextjs 15
+- Typescript
+- Tailwind CSS
+- shadcn/ui
+- ESLint
+- Prettier
+- pnpm
+
+# When creating a new file, always follow the following rules:
+- Add documentation for the file in the `docs` directory.
+- Root folder is `src/`
+- create new route in the `app/` directory.
+- create new component in the `components/` directory.
+- create new store in the `store/` directory.
+- create new api in the `features/` directory.
+- create new utils in the `utils/` directory.
+- create new types in the `types/` directory.
+- create new hooks in the `hooks/` directory.
+- create new services in the `services/` directory.

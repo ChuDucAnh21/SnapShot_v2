@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Ninja Kids</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(120deg, #f9e9b0 0%, #a3def7 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+            overflow: hidden;
+        }
+
+        .game-container {
+            background: #fffdeb;
+            border-radius: 30px;
+            padding: 28px 14px 20px 14px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 8px 40px rgba(68,68,0,0.14);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .next-number {
+            font-size: 30px;
+            font-weight: bold;
+            color: #00a78e;
+            display: flex;
+            align-items: center;
+        }
+        .next-number .ninja-emoji {
+            font-size: 26px;
+            margin-right: 8px;
+        }
+
+        .timer {
+            font-size: 20px;
+            font-weight: bold;
+            color: #64b5f6;
+        }
+
+        .game-grid {
+            position: relative;
+            height: 315px;
+            background: #ebf8ff;
+            border-radius: 20px;
+            margin: 16px 0;
+            display: flex;
+            flex-wrap: wrap;
+            align-content: flex-start;
+            justify-content: center;
+        }
+
+        .number-bubble {
+            margin: 8px;
+            width: 62px;
+            height: 62px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #71e3ba 0%, #3bb4ee 100%);
+            color: #fff;
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: box-shadow 0.2s, transform 0.2s;
+            box-shadow: 0 1px 7px #acd7e348;
+            border: 2.5px solid #fff5;
+            user-select: none;
+            position: relative;
+        }
+
+        .number-bubble .ninja-emoji {
+            font-size: 22px;
+            margin-left: 3px;
+            margin-bottom: 3px;
+        }
+
+        .number-bubble.found {
+            background: linear-gradient(135deg, #24eb80 0%, #1aae61 100%);
+            animation: found 0.6s ease-out;
+            color: #fff;
+        }
+
+        .number-bubble.wrong {
+            background: linear-gradient(135deg, #fd7b7b 0%, #db3d3d 100%);
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+            color: #fff;
+        }
+
+        .number-bubble:hover {
+            transform: scale(1.13);
+        }
+        .number-bubble:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes found {
+            0% { transform: scale(1); }
+            45% { transform: scale(1.25) rotate(-10deg);}
+            100% { transform: scale(0.0) rotate(15deg); opacity: 0; }
+        }
+
+        @keyframes shake {
+            10%, 90% { transform: translateX(-2px); }
+            20%, 80% { transform: translateX(3px); }
+            30%, 50%, 70% { transform: translateX(-4px); }
+            40%, 60% { transform: translateX(4px); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 13px 0 6px 0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #a7ffeb 0%, #58c7f3 100%);
+            transition: width 0.3s ease;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 14px;
+            border-top: 2px solid #e5e7eb;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 22px;
+            font-weight: bold;
+            color: #00a78e;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #7b848b;
+            margin-top: 2px;
+        }
+
+        .game-over {
+            text-align: center;
+            padding: 32px 12px;
+        }
+
+        .game-over h2 {
+            font-size: 30px;
+            color: #456564;
+            margin-bottom: 18px;
+        }
+
+        .final-score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #059669;
+            margin: 14px 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .instruction {
+            text-align: center;
+            font-size: 19px;
+            color: #478693;
+            padding: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div id="game-screen">
+            <div class="header">
+                <div class="next-number">
+                    <span class="ninja-emoji">🥷</span>
+                    Ninja tìm số: <span id="next-number">1</span>
+                </div>
+                <div class="timer" id="timer">0.00s</div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+            </div>
+            <div id="instruction" class="instruction">
+                Cùng Ninja tìm và bấm các số từ <b>1</b> đến <b>10</b> nào!<br>
+                Mỗi số là một quả bóng nhiều màu sắc và Ninja!<br/>
+                Bấm đúng sẽ thấy Ninja bay đi và nghe âm thanh thưởng nhé!
+            </div>
+            <div class="game-grid" id="game-grid"></div>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="found">0</div>
+                    <div class="stat-label">Số đã tìm</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="mistakes">0</div>
+                    <div class="stat-label">Sai</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="score">0</div>
+                    <div class="stat-label">Điểm</div>
+                </div>
+            </div>
+        </div>
+        <div id="game-over-screen" class="game-over hidden">
+            <h2>Xuất sắc quá! 🥷🎉</h2>
+            <div class="final-score" id="final-score">0</div>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="final-time">0.00s</div>
+                    <div class="stat-label">Thời gian</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="final-mistakes">0</div>
+                    <div class="stat-label">Sai</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="accuracy">100%</div>
+                    <div class="stat-label">Chính xác</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <audio id="success-sound" src="https://cdn.pixabay.com/audio/2022/07/26/audio_116bfa580b.mp3" preload="auto"></audio>
+    <audio id="fail-sound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_121bfa580b.mp3" preload="auto"></audio>
+    <script>
+        // Game state
+        const MAX_NUMBERS = 10;
+        let currentNumber = 1;
+        let mistakes = 0;
+        let score = 0;
+        let startTime = null;
+        let timerInterval = null;
+        let gameStarted = false;
+        // Ninja emoji variations
+        const ninjaEmojis = ['', '🐱', '🐶', '🐵', '🦊', '🐼', '🦁', '🐻', '🐸', '🐯'];
+        // Sound elements
+        const successSound = document.getElementById('success-sound');
+        const failSound = document.getElementById('fail-sound');
+
+        // Iruka SDK
+        let irukaHost = null;
+        window.addEventListener('message', (e) => {
+            if (e.data && e.data.type === 'INIT') {
+                irukaHost = {
+                    ready: () => {
+                        window.parent.postMessage({
+                            sdkVersion: '1.0.0',
+                            source: 'game',
+                            type: 'READY'
+                        }, '*');
+                    },
+                    reportScore: (newScore) => {
+                        window.parent.postMessage({
+                            sdkVersion: '1.0.0',
+                            source: 'game',
+                            type: 'SCORE_UPDATE',
+                            payload: { score: newScore }
+                        }, '*');
+                    },
+                    complete: (data) => {
+                        window.parent.postMessage({
+                            sdkVersion: '1.0.0',
+                            source: 'game',
+                            type: 'COMPLETE',
+                            payload: data
+                        }, '*');
+                    }
+                };
+                initGame();
+                irukaHost.ready();
+            } else if (e.data && e.data.type === 'START') {
+                if (!gameStarted) {
+                    startGame();
+                    gameStarted = true;
+                }
+            }
+        });
+
+        function initGame() {
+            // Reset state
+            currentNumber = 1;
+            mistakes = 0;
+            score = 0;
+            document.getElementById('found').textContent = '0';
+            document.getElementById('mistakes').textContent = '0';
+            document.getElementById('score').textContent = '0';
+            document.getElementById('next-number').textContent = '1';
+
+            generateNumbers();
+        }
+
+        function startGame() {
+            startTime = Date.now();
+            document.getElementById('instruction').classList.add('hidden');
+            timerInterval = setInterval(() => {
+                const elapsed = (Date.now() - startTime) / 1000;
+                document.getElementById('timer').textContent = elapsed.toFixed(2) + 's';
+            }, 10);
+        }
+
+        function generateNumbers() {
+            const grid = document.getElementById('game-grid');
+            grid.innerHTML = '';
+            const numbers = [];
+            for (let i = 1; i <= MAX_NUMBERS; i++) {
+                numbers.push(i);
+            }
+            // Shuffle array
+            for (let i = numbers.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+            }
+            // Place numbers in a neat "grid"
+            numbers.forEach(num => {
+                // Choose a random ninja skin
+                const ninja = ninjaEmojis[Math.floor(Math.random() * ninjaEmojis.length)];
+                const bubble = document.createElement('div');
+                bubble.className = 'number-bubble';
+                bubble.innerHTML = `<span>${num}</span><span class="ninja-emoji">${ninja}</span>`;
+                bubble.dataset.number = num;
+                bubble.tabIndex = 0;
+                bubble.setAttribute("aria-label", "Số " + num);
+
+                bubble.addEventListener('click', () => handleNumberClick(num, bubble));
+                // Also add keypress (Enter/Space) accessibility
+                bubble.addEventListener('keydown', function (e) {
+                  if (e.key === ' ' || e.key === 'Enter') handleNumberClick(num, bubble);
+                });
+
+                grid.appendChild(bubble);
+            });
+        }
+
+        function handleNumberClick(num, bubble) {
+            if (num === currentNumber) {
+                // Đúng!
+                bubble.classList.add('found');
+                if (successSound) {
+                    successSound.currentTime = 0;
+                    successSound.play();
+                }
+                currentNumber++;
+                score += 10;
+
+                const progress = ((currentNumber - 1) / MAX_NUMBERS) * 100;
+                document.getElementById('progress-fill').style.width = progress + '%';
+                document.getElementById('next-number').textContent = currentNumber > MAX_NUMBERS ? '' : currentNumber;
+                document.getElementById('found').textContent = currentNumber - 1;
+                document.getElementById('score').textContent = score;
+
+                if (irukaHost) {
+                    irukaHost.reportScore(score);
+                }
+
+                setTimeout(() => {
+                    bubble.remove();
+                }, 500);
+
+                if (currentNumber > MAX_NUMBERS) {
+                    endGame();
+                }
+            } else {
+                // Sai!
+                bubble.classList.add('wrong');
+                mistakes++;
+                if (failSound) {
+                    failSound.currentTime = 0;
+                    failSound.play();
+                }
+                score = Math.max(0, score - 3);
+
+                document.getElementById('mistakes').textContent = mistakes;
+                document.getElementById('score').textContent = score;
+                if (irukaHost) {
+                    irukaHost.reportScore(score);
+                }
+                setTimeout(() => {
+                    bubble.classList.remove('wrong');
+                }, 600);
+            }
+        }
+
+        function endGame() {
+            clearInterval(timerInterval);
+
+            const timeMs = Date.now() - startTime;
+            const timeSec = timeMs / 1000;
+            const accuracy = Math.round(((MAX_NUMBERS / (MAX_NUMBERS + mistakes)) * 100));
+
+            // Simple bonus: Very fast finish = more points
+            let speedBonus = 0;
+            if (timeSec < 14) speedBonus = 15;
+            else if (timeSec < 19) speedBonus = 8;
+            score += speedBonus;
+
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('game-over-screen').classList.remove('hidden');
+
+            document.getElementById('final-score').textContent = score + (speedBonus ? ` (+${speedBonus})` : '');
+            document.getElementById('final-time').textContent = timeSec.toFixed(2) + 's';
+            document.getElementById('final-mistakes').textContent = mistakes;
+            document.getElementById('accuracy').textContent = accuracy + '%';
+            if (irukaHost) {
+                irukaHost.complete({
+                    score: score,
+                    timeMs: timeMs,
+                    extras: {
+                        timeSec: timeSec,
+                        mistakes: mistakes,
+                        accuracy: accuracy,
+                        numbersPerSecond: (MAX_NUMBERS / timeSec).toFixed(2)
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>

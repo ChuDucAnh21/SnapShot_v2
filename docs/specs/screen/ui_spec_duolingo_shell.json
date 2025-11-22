@@ -1,0 +1,605 @@
+{
+  "meta": {
+    "name": "IrukaAppShellSpec",
+    "version": "1.0.0",
+    "lastUpdated": "2025-09-27",
+    "description": "Spec layout PWA clone Duolingo: 3 cột (LeftNav / MainContent / RightRail) + BottomNav mobile. Thiết kế theo atomic pattern, hỗ trợ Next.js/React + Tailwind.",
+    "techStack": ["Next.js 14+", "React 18+", "TailwindCSS", "TypeScript (khuyến nghị)"],
+    "routing": {
+      "pages": [
+        {
+          "path": "/",
+          "name": "Learn (default)"
+        },
+        {
+          "path": "/leaderboards",
+          "name": "Leaderboards"
+        },
+        {
+          "path": "/quests",
+          "name": "Quests"
+        },
+        {
+          "path": "/shop",
+          "name": "Shop"
+        },
+        {
+          "path": "/profile",
+          "name": "Profile"
+        },
+        {
+          "path": "/more",
+          "name": "More"
+        }
+      ]
+    }
+  },
+  "designTokens": {
+    "color": {
+      "background": "#0f172a",
+      "panelA": "#0b1220",
+      "panelB": "#111827",
+      "textPrimary": "#e5e7eb",
+      "textSecondary": "#94a3b8",
+      "ctaPrimary": "#22c55e",
+      "ctaSecondary": "#38bdf8",
+      "borderSoft": "rgba(148,163,184,0.20)",
+      "ringFocus": "#38bdf8",
+      "pillBg": "rgba(148,163,184,0.12)"
+    },
+    "radius": {
+      "xs": 8,
+      "sm": 12,
+      "md": 16,
+      "lg": 20,
+      "pill": 999
+    },
+    "shadow": {
+      "soft": "0 6px 20px rgba(0,0,0,0.25)",
+      "card": "0 8px 24px rgba(2,6,23,0.35)"
+    },
+    "spacing": {
+      "gridGapDesktop": 24,
+      "gridGapTablet": 20,
+      "gridGapMobile": 16,
+      "cardPaddingMin": 16,
+      "cardPaddingMax": 20,
+      "icon": 20,
+      "iconLg": 24,
+      "targetMin": 44
+    },
+    "typography": {
+      "fontFamily": "system-ui, ui-sans-serif, Inter, Roboto, 'Helvetica Neue', Arial",
+      "size": {
+        "xs": 12,
+        "sm": 14,
+        "md": 16,
+        "lg": 18,
+        "xl": 20
+      },
+      "weight": {
+        "regular": 400,
+        "medium": 500,
+        "semibold": 600,
+        "bold": 700
+      },
+      "lineHeight": {
+        "tight": 1.2,
+        "normal": 1.4,
+        "relaxed": 1.5
+      }
+    },
+    "zIndex": {
+      "bottomNav": 50,
+      "popover": 100,
+      "modal": 1000
+    },
+    "breakpoints": {
+      "mobile": 0,
+      "sm": 640,
+      "md": 768,
+      "lg": 1024,
+      "xl": 1280
+    },
+    "theme": {
+      "supportsTheming": true,
+      "customizable": ["color.*", "radius.*", "shadow.*", "spacing.*", "typography.*"]
+    }
+  },
+  "layout": {
+    "grid": {
+      "columns": 12,
+      "containerMax": 1440,
+      "paddingX": {
+        "mobile": 16,
+        "tablet": 24,
+        "desktop": 32
+      },
+      "gap": {
+        "mobile": 16,
+        "tablet": 20,
+        "desktop": 24
+      }
+    },
+    "columns": {
+      "leftNav": {
+        "desktop": 256,
+        "tablet": 240,
+        "mobile": 0,
+        "sticky": true
+      },
+      "mainContent": {
+        "maxWidth": 960,
+        "minHeightVh": 60,
+        "scrollable": true
+      },
+      "rightRail": {
+        "desktop": 352,
+        "desktopSm": 300,
+        "visibleFrom": "lg",
+        "sticky": true,
+        "cardsOrder": ["superPromo", "unlockLeaderboards", "dailyQuests"]
+      }
+    },
+    "appShell": {
+      "scrolling": "mainOnly",
+      "themeColor": "#0f172a",
+      "a11yContrastMin": "4.5:1"
+    }
+  },
+  "responsive": {
+    "xl_>=1280": {
+      "columns": "LeftNav (≈256) + Main (≤960) + RightRail (≈352)",
+      "behavior": ["threeColumns", "fullRightRail", "stickyBoth"]
+    },
+    "lg_1024_1279": {
+      "columns": "LeftNav + Main + RightRail (300–320)",
+      "behavior": ["rightRailShrink", "titleBarEllipsisIfNeeded"]
+    },
+    "md_<1024": {
+      "columns": "LeftNav + Main (RightRail ẩn)",
+      "behavior": ["hideRightRail", "pushImportantCardsToMainBottom"]
+    },
+    "sm_<768": {
+      "columns": "Main full-width",
+      "behavior": ["hideLeftNav", "showBottomNav5Tabs", "compactTitleBar"]
+    }
+  },
+  "accessibility": {
+    "focusRing": {
+      "color": "{designTokens.color.ringFocus}",
+      "widthPx": 2,
+      "offsetPx": 2
+    },
+    "targetsMinPx": 44,
+    "keyboardNav": true,
+    "aria": {
+      "leftNav": "primary navigation",
+      "bottomNav": "global tab bar",
+      "rightRail": "complementary information",
+      "titleBar": "section header",
+      "contentArea": "main region"
+    }
+  },
+  "states": {
+    "loading": {
+      "skeleton": {
+        "cards": 3,
+        "linesPerCard": [2, 3, 2],
+        "contentPlaceholders": 4
+      }
+    },
+    "offline": {
+      "banner": "Bạn đang offline",
+      "hideNetworkCTAs": true
+    },
+    "error": {
+      "card": {
+        "title": "Đã có lỗi",
+        "retryLabel": "Thử lại"
+      }
+    }
+  },
+  "atoms": {
+    "Icon": {
+      "props": {
+        "name": "string",
+        "size": ["sm", "md", "lg"],
+        "ariaLabel": "string?"
+      },
+      "defaults": {
+        "size": "md"
+      },
+      "customizable": ["size"]
+    },
+    "Text": {
+      "props": {
+        "variant": ["label", "body", "title", "pill"],
+        "weight": ["regular", "medium", "semibold", "bold"]
+      },
+      "defaults": {
+        "variant": "body",
+        "weight": "regular"
+      },
+      "customizable": ["variant", "weight", "color"]
+    },
+    "Button": {
+      "props": {
+        "variant": ["primary", "secondary", "ghost"],
+        "size": ["sm", "md", "lg"],
+        "iconLeft": "Icon?",
+        "iconRight": "Icon?",
+        "disabled": "boolean"
+      },
+      "tokens": {
+        "primaryBg": "{designTokens.color.ctaPrimary}",
+        "secondaryBg": "{designTokens.color.ctaSecondary}"
+      },
+      "a11y": {
+        "focusRing": true
+      },
+      "customizable": ["variant", "size", "radius", "shadow"]
+    },
+    "Pill": {
+      "props": {
+        "text": "string"
+      },
+      "style": {
+        "bg": "{designTokens.color.pillBg}",
+        "radius": "{designTokens.radius.pill}"
+      }
+    },
+    "Badge": {
+      "props": {
+        "text": "string",
+        "tone": ["info", "success", "warning", "brand"]
+      },
+      "style": {
+        "radius": "{designTokens.radius.sm}"
+      }
+    },
+    "Divider": {
+      "style": {
+        "color": "{designTokens.color.borderSoft}",
+        "heightPx": 1
+      }
+    },
+    "CardSurface": {
+      "style": {
+        "bg": "{designTokens.color.panelB}",
+        "radius": "{designTokens.radius.md}",
+        "border": "{designTokens.color.borderSoft}",
+        "shadow": "{designTokens.shadow.card}",
+        "padding": "{designTokens.spacing.cardPaddingMin}-{designTokens.spacing.cardPaddingMax}"
+      },
+      "customizable": ["bg", "radius", "shadow", "padding"]
+    },
+    "ProgressBar": {
+      "props": {
+        "value": "number(0-100)"
+      },
+      "style": {
+        "track": "{designTokens.color.panelA}",
+        "indicator": "{designTokens.color.ctaSecondary}",
+        "radius": 8
+      }
+    }
+  },
+  "molecules": {
+    "NavItem": {
+      "children": ["atoms.Icon", "atoms.Text"],
+      "props": {
+        "href": "string",
+        "label": "string",
+        "icon": "Icon",
+        "active": "boolean"
+      },
+      "style": {
+        "padding": 12,
+        "radius": "{designTokens.radius.sm}",
+        "gap": 8,
+        "activeBg": "{designTokens.color.pillBg}",
+        "activeRing": "{designTokens.color.borderSoft}"
+      },
+      "states": ["hover", "active", "focus"],
+      "customizable": ["activeBg", "radius", "padding"]
+    },
+    "QuestItem": {
+      "children": ["atoms.Icon", "atoms.Text", "atoms.ProgressBar"],
+      "props": {
+        "title": "string",
+        "progress": "number",
+        "iconName": "string"
+      }
+    },
+    "RightRailCard": {
+      "children": ["atoms.Badge?", "atoms.Text", "atoms.Button?", "atoms.ProgressBar?"],
+      "props": {
+        "title": "string",
+        "description": "string?",
+        "ctaLabel": "string?",
+        "progress": "number?"
+      },
+      "variants": ["promo", "unlock", "quest"],
+      "customizable": ["variants", "layout"]
+    }
+  },
+  "organisms": {
+    "LeftNav": {
+      "role": "navigation",
+      "sticky": true,
+      "widthPx": {
+        "desktop": 256,
+        "tablet": 240
+      },
+      "children": [
+        {
+          "type": "Logo",
+          "props": {
+            "title": "duolingo-like",
+            "href": "/"
+          }
+        },
+        {
+          "type": "NavList",
+          "items": [
+            {
+              "href": "/",
+              "label": "Learn",
+              "icon": "home",
+              "active": true
+            },
+            {
+              "href": "/leaderboards",
+              "label": "Leaderboards",
+              "icon": "trophy"
+            },
+            {
+              "href": "/quests",
+              "label": "Quests",
+              "icon": "target"
+            },
+            {
+              "href": "/shop",
+              "label": "Shop",
+              "icon": "cart"
+            },
+            {
+              "href": "/profile",
+              "label": "Profile",
+              "icon": "user"
+            },
+            {
+              "href": "/more",
+              "label": "More",
+              "icon": "dots"
+            }
+          ]
+        }
+      ],
+      "customizable": ["items", "widthPx", "collapseBehavior"]
+    },
+    "TitleBar": {
+      "role": "region",
+      "style": {
+        "bg": "#84cc16",
+        "textColor": "#0f172a",
+        "radius": "{designTokens.radius.lg}",
+        "padding": "{designTokens.spacing.cardPaddingMin}-{designTokens.spacing.cardPaddingMax}"
+      },
+      "slots": {
+        "left": ["BackButton", "SectionPill"],
+        "right": ["GuidebookButton", "ExtraActions?"]
+      },
+      "props": {
+        "sectionText": "string",
+        "showBack": "boolean",
+        "guidebookHref": "string?",
+        "ctaStartInBar": "boolean"
+      },
+      "states": ["compact (mobile)", "default"]
+    },
+    "RightRail": {
+      "role": "complementary",
+      "visibleFrom": "lg",
+      "widthPx": {
+        "desktop": 352,
+        "desktopSm": 300
+      },
+      "cards": [
+        {
+          "id": "superPromo",
+          "molecule": "RightRailCard",
+          "variant": "promo",
+          "props": {
+            "title": "Try Super for free",
+            "description": "No ads, personalized practice, unlimited Legendary.",
+            "ctaLabel": "Try 1 week free"
+          }
+        },
+        {
+          "id": "unlockLeaderboards",
+          "molecule": "RightRailCard",
+          "variant": "unlock",
+          "props": {
+            "title": "Unlock Leaderboards!",
+            "description": "Complete 10 more lessons to start competing"
+          }
+        },
+        {
+          "id": "dailyQuests",
+          "molecule": "RightRailCard",
+          "variant": "quest",
+          "props": {
+            "title": "Daily Quests",
+            "progress": 10
+          }
+        }
+      ],
+      "customizable": ["cards", "widthPx", "order"]
+    },
+    "BottomNav": {
+      "role": "tablist",
+      "visibleUntil": "md",
+      "tabs": [
+        {
+          "href": "/",
+          "label": "Learn",
+          "icon": "home"
+        },
+        {
+          "href": "/leaderboards",
+          "label": "Ranks",
+          "icon": "trophy"
+        },
+        {
+          "href": "/quests",
+          "label": "Quests",
+          "icon": "target"
+        },
+        {
+          "href": "/shop",
+          "label": "Shop",
+          "icon": "cart"
+        },
+        {
+          "href": "/profile",
+          "label": "Profile",
+          "icon": "user"
+        }
+      ],
+      "style": {
+        "bg": "rgba(30,41,59,0.85)",
+        "borderTop": "{designTokens.color.borderSoft}",
+        "backdropBlur": true,
+        "heightPx": 64
+      },
+      "customizable": ["tabs", "heightPx", "bg"]
+    }
+  },
+  "templates": {
+    "AppShellGrid": {
+      "description": "Khung lưới 12 cột: LeftNav / MainContent / RightRail, sticky sidebars, main scrollable.",
+      "regions": ["LeftNav", "MainContent", "RightRail", "BottomNav"],
+      "behavior": ["mainScrollOnly", "stickySidebars", "responsiveHideShow"],
+      "customizable": ["grid.gap", "containerMax", "regions"]
+    },
+    "PageWithRightRail": {
+      "uses": ["AppShellGrid", "TitleBar", "RightRail"],
+      "slots": {
+        "contentArea": "ReactNode"
+      }
+    }
+  },
+  "pages": {
+    "LearnPathPage": {
+      "template": "PageWithRightRail",
+      "titleBar": {
+        "sectionText": "SECTION 1, UNIT 1",
+        "showBack": true,
+        "guidebookHref": "/guidebook/1"
+      },
+      "contentArea": {
+        "component": "LearningPathColumn",
+        "props": {
+          "lineColor": "#7dd3fc",
+          "nodes": [
+            {
+              "type": "start",
+              "icon": "star",
+              "status": "available"
+            },
+            {
+              "type": "challenge",
+              "icon": "star",
+              "status": "locked"
+            },
+            {
+              "type": "chest",
+              "icon": "chest",
+              "status": "locked"
+            },
+            {
+              "type": "challenge",
+              "icon": "star",
+              "status": "locked"
+            },
+            {
+              "type": "mascot",
+              "icon": "mascot",
+              "status": "neutral"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "contentAreaPatterns": {
+    "LearningPathColumn": {
+      "props": {
+        "lineColor": "string",
+        "nodes": "Array<Node>"
+      },
+      "node": {
+        "shape": ["circle", "square", "diamond"],
+        "sizePx": 64,
+        "status": ["available", "completed", "locked", "neutral"],
+        "customizable": ["shape", "sizePx", "spacing"]
+      },
+      "spacing": {
+        "betweenNodesPx": 32,
+        "centerColumnWidthPx": 340
+      }
+    },
+    "LessonView": {
+      "sections": ["warmup", "mainActivities", "practice", "reflection"],
+      "navMode": "stepByStep",
+      "customizable": ["sectionsOrder", "successFeedback", "errorFeedback"]
+    }
+  },
+  "pwa": {
+    "cache": {
+      "strategy": "app-shell first",
+      "precache": ["LeftNav", "RightRail", "TitleBar assets"]
+    },
+    "offline": {
+      "banner": true,
+      "fallbacks": {
+        "image": "/offline.png"
+      }
+    },
+    "meta": {
+      "themeColor": "{designTokens.color.background}"
+    },
+    "icons": {
+      "maskable": true,
+      "sizes": [192, 256, 384, 512]
+    }
+  },
+  "customizationGuides": {
+    "tailwind": {
+      "useCssVariables": true,
+      "example": {
+        "cssVariables": {
+          "--bg": "{designTokens.color.background}",
+          "--panel": "{designTokens.color.panelB}",
+          "--text": "{designTokens.color.textPrimary}",
+          "--cta": "{designTokens.color.ctaPrimary}",
+          "--cta-2": "{designTokens.color.ctaSecondary}"
+        }
+      }
+    },
+    "slotsAndProps": [
+      "organisms.TitleBar.slots.left/right",
+      "templates.PageWithRightRail.slots.contentArea",
+      "organisms.RightRail.cards (thứ tự/ẩn hiện)"
+    ],
+    "swapComponents": [
+      {
+        "from": "atoms.Button",
+        "to": "@shadcn/ui Button",
+        "notes": "Giữ props variant/size, map màu theo tokens"
+      }
+    ]
+  }
+}

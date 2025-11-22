@@ -1,0 +1,454 @@
+{
+  "meta": {
+    "name": "IrukaProfileMain_ExplicitStyles",
+    "version": "1.0.0",
+    "description": "Profile Main Section (không left/right rails). Toàn bộ style khai báo rõ ràng bằng CSS-in-JS (object), kèm responsive & states."
+  },
+  "tokens": {
+    "colors": {
+      "bg": "#0f172a",
+      "panel": "#111827",
+      "panelAlt": "#0b1220",
+      "text": "#e5e7eb",
+      "textMuted": "#94a3b8",
+      "accent": "#38bdf8",
+      "success": "#22c55e",
+      "borderSoft": "rgba(148,163,184,0.20)"
+    },
+    "radius": {
+      "sm": 12,
+      "md": 16,
+      "lg": 20,
+      "pill": 999
+    },
+    "shadow": {
+      "soft": "0 6px 20px rgba(0,0,0,0.25)",
+      "card": "0 8px 24px rgba(2,6,23,0.35)"
+    },
+    "typography": {
+      "family": "system-ui, ui-sans-serif, Inter, Roboto, Arial",
+      "size": {
+        "xs": 12,
+        "sm": 14,
+        "md": 16,
+        "lg": 18,
+        "xl": 20,
+        "xxl": 24,
+        "xxxl": 32
+      },
+      "weight": {
+        "regular": 400,
+        "medium": 500,
+        "semibold": 600,
+        "bold": 700
+      },
+      "lineHeight": {
+        "tight": 1.25,
+        "normal": 1.4,
+        "relaxed": 1.5
+      }
+    },
+    "spacing": {
+      "containerX_mobile": 16,
+      "containerX_md": 24,
+      "containerY": 24,
+      "gap": 16
+    },
+    "z": {
+      "avatar": 10,
+      "floatingBtn": 20
+    },
+    "breakpoints": {
+      "sm": 640,
+      "md": 768,
+      "lg": 1024
+    }
+  },
+  "layout": {
+    "container": {
+      "style": {
+        "maxWidth": "960px",
+        "marginLeft": "auto",
+        "marginRight": "auto",
+        "paddingLeft": "16px",
+        "paddingRight": "16px",
+        "paddingTop": "24px",
+        "paddingBottom": "24px",
+        "fontFamily": "var(--font, system-ui, ui-sans-serif, Inter, Roboto, Arial)",
+        "color": "#e5e7eb"
+      },
+      "responsive": [
+        {
+          "minWidth": 768,
+          "style": {
+            "paddingLeft": "24px",
+            "paddingRight": "24px"
+          }
+        }
+      ]
+    },
+    "order": ["ProfileHeader", "IdentityBlock", "Divider", "Statistics", "Achievements"]
+  },
+  "components": {
+    "ProfileHeader": {
+      "wrapper": {
+        "position": "relative",
+        "marginBottom": "24px"
+      },
+      "cover": {
+        "position": "relative",
+        "width": "100%",
+        "height": "200px",
+        "backgroundColor": "#111827",
+        "borderRadius": "20px",
+        "overflow": "hidden",
+        "boxShadow": "0 8px 24px rgba(2,6,23,0.35)"
+      },
+      "coverImage": {
+        "width": "100%",
+        "height": "100%",
+        "objectFit": "cover",
+        "display": "block"
+      },
+      "editCoverBtn": {
+        "position": "absolute",
+        "top": "12px",
+        "right": "12px",
+        "width": "40px",
+        "height": "40px",
+        "display": "grid",
+        "placeItems": "center",
+        "borderRadius": "999px",
+        "backgroundColor": "rgba(2,6,23,0.7)",
+        "border": "1px solid rgba(148,163,184,0.20)",
+        "boxShadow": "0 6px 20px rgba(0,0,0,0.25)",
+        "cursor": "pointer"
+      },
+      "avatarWrap": {
+        "position": "absolute",
+        "left": "32px",
+        "bottom": "-32px",
+        "zIndex": 10
+      },
+      "avatar": {
+        "width": "144px",
+        "height": "144px",
+        "borderRadius": "999px",
+        "backgroundColor": "#334155",
+        "display": "grid",
+        "placeItems": "center",
+        "border": "2px solid #38bdf8",
+        "overflow": "hidden"
+      },
+      "avatarImage": {
+        "width": "100%",
+        "height": "100%",
+        "objectFit": "cover",
+        "display": "block",
+        "borderRadius": "999px"
+      },
+      "editAvatarBtn": {
+        "position": "absolute",
+        "right": "-8px",
+        "bottom": "-8px",
+        "width": "36px",
+        "height": "36px",
+        "display": "grid",
+        "placeItems": "center",
+        "borderRadius": "999px",
+        "backgroundColor": "rgba(2,6,23,0.85)",
+        "border": "1px solid rgba(148,163,184,0.20)",
+        "boxShadow": "0 6px 20px rgba(0,0,0,0.25)",
+        "cursor": "pointer"
+      },
+      "responsive": [
+        {
+          "maxWidth": 767,
+          "style": {
+            "cover": {
+              "height": "160px"
+            },
+            "avatar": {
+              "width": "112px",
+              "height": "112px"
+            },
+            "avatarWrap": {
+              "left": "20px",
+              "bottom": "-28px"
+            }
+          }
+        }
+      ]
+    },
+    "IdentityBlock": {
+      "wrapper": {
+        "paddingTop": "48px",
+        "paddingLeft": "8px",
+        "paddingRight": "8px",
+        "marginBottom": "24px"
+      },
+      "displayName": {
+        "fontSize": "32px",
+        "fontWeight": 700,
+        "lineHeight": 1.2,
+        "marginBottom": "6px"
+      },
+      "handle": {
+        "fontSize": "14px",
+        "fontWeight": 400,
+        "lineHeight": 1.4,
+        "color": "#94a3b8",
+        "marginBottom": "6px"
+      },
+      "joinedDate": {
+        "fontSize": "14px",
+        "color": "#94a3b8",
+        "marginBottom": "8px"
+      },
+      "socialRow": {
+        "display": "flex",
+        "gap": "16px",
+        "fontSize": "14px",
+        "color": "#38bdf8"
+      },
+      "socialLink": {
+        "cursor": "pointer",
+        "textDecoration": "none"
+      },
+      "socialLink_hover": {
+        "textDecoration": "underline"
+      }
+    },
+    "Divider": {
+      "style": {
+        "height": "1px",
+        "backgroundColor": "rgba(148,163,184,0.20)",
+        "marginTop": "24px",
+        "marginBottom": "24px",
+        "border": "none"
+      }
+    },
+    "Statistics": {
+      "sectionTitle": {
+        "fontSize": "22px",
+        "fontWeight": 700,
+        "marginBottom": "12px"
+      },
+      "grid": {
+        "display": "grid",
+        "gridTemplateColumns": "1fr",
+        "gap": "16px"
+      },
+      "grid_md": {
+        "gridTemplateColumns": "1fr 1fr"
+      },
+      "card": {
+        "backgroundColor": "#111827",
+        "borderRadius": "20px",
+        "border": "1px solid rgba(148,163,184,0.20)",
+        "boxShadow": "0 8px 24px rgba(2,6,23,0.35)",
+        "padding": "20px",
+        "display": "flex",
+        "alignItems": "flex-start",
+        "gap": "12px",
+        "minHeight": "84px"
+      },
+      "icon": {
+        "width": "24px",
+        "height": "24px",
+        "flex": "0 0 24px"
+      },
+      "value": {
+        "fontSize": "20px",
+        "fontWeight": 700,
+        "lineHeight": 1.2
+      },
+      "label": {
+        "fontSize": "14px",
+        "color": "#94a3b8",
+        "marginTop": "4px"
+      },
+      "value_zero": {
+        "opacity": 0.8
+      }
+    },
+    "Achievements": {
+      "header": {
+        "display": "flex",
+        "alignItems": "center",
+        "justifyContent": "space-between",
+        "marginTop": "8px",
+        "marginBottom": "12px"
+      },
+      "title": {
+        "fontSize": "22px",
+        "fontWeight": 700
+      },
+      "viewAll": {
+        "fontSize": "13px",
+        "fontWeight": 600,
+        "color": "#38bdf8",
+        "cursor": "pointer",
+        "textTransform": "uppercase",
+        "letterSpacing": "0.04em"
+      },
+      "viewAll_hover": {
+        "textDecoration": "underline"
+      },
+      "list": {
+        "display": "grid",
+        "gridTemplateColumns": "1fr",
+        "gap": "12px"
+      },
+      "item": {
+        "backgroundColor": "#111827",
+        "borderRadius": "20px",
+        "border": "1px solid rgba(148,163,184,0.20)",
+        "boxShadow": "0 8px 24px rgba(2,6,23,0.35)",
+        "padding": "16px",
+        "display": "flex",
+        "alignItems": "center",
+        "gap": "16px"
+      },
+      "badge": {
+        "width": "64px",
+        "height": "64px",
+        "borderRadius": "16px",
+        "backgroundColor": "#0b1220",
+        "display": "grid",
+        "placeItems": "center",
+        "flex": "0 0 64px"
+      },
+      "name": {
+        "fontSize": "16px",
+        "fontWeight": 600
+      },
+      "progressText": {
+        "marginLeft": "auto",
+        "fontSize": "14px",
+        "color": "#94a3b8"
+      },
+      "progressBarWrap": {
+        "width": "100%",
+        "height": "6px",
+        "backgroundColor": "#0b1220",
+        "borderRadius": "8px",
+        "overflow": "hidden",
+        "marginTop": "8px"
+      },
+      "progressBarIndicator": {
+        "height": "100%",
+        "backgroundColor": "#38bdf8",
+        "width": "0%"
+      },
+      "item_locked": {
+        "opacity": 0.85,
+        "filter": "grayscale(0.2)"
+      },
+      "item_completed": {
+        "borderColor": "#22c55e",
+        "boxShadow": "0 0 0 2px rgba(34,197,94,0.25) inset"
+      }
+    }
+  },
+  "states": {
+    "button_focus": {
+      "outline": "2px solid #38bdf8",
+      "outlineOffset": "2px"
+    },
+    "button_hover": {
+      "filter": "brightness(1.05)"
+    },
+    "button_active": {
+      "transform": "translateY(0.5px)"
+    },
+    "skeleton": {
+      "background": "linear-gradient(90deg, rgba(255,255,255,0.06) 25%, rgba(255,255,255,0.12) 37%, rgba(255,255,255,0.06) 63%)",
+      "backgroundSize": "400% 100%",
+      "animation": "skeleton-loading 1.4s ease-in-out infinite"
+    },
+    "keyframes": {
+      "skeleton-loading": "0%{background-position:100% 50%}100%{background-position:0 50%}"
+    }
+  },
+  "responsiveRules": [
+    {
+      "when": "(max-width: 767px)",
+      "apply": {
+        "ProfileHeader.cover.height": "160px",
+        "ProfileHeader.avatar.width": "112px",
+        "ProfileHeader.avatar.height": "112px",
+        "ProfileHeader.avatarWrap.left": "20px",
+        "ProfileHeader.avatarWrap.bottom": "-28px",
+        "Statistics.grid.gridTemplateColumns": "1fr"
+      }
+    },
+    {
+      "when": "(min-width: 768px)",
+      "apply": {
+        "Statistics.grid.gridTemplateColumns": "1fr 1fr"
+      }
+    }
+  ],
+  "a11y": {
+    "roles": {
+      "main": "main",
+      "identity": "region",
+      "stats": "region",
+      "achievements": "region"
+    },
+    "labels": {
+      "identity": "Profile identity",
+      "stats": "Statistics",
+      "achievements": "Achievements",
+      "editCover": "Edit profile cover",
+      "editAvatar": "Edit profile avatar"
+    },
+    "minTarget": {
+      "width": 44,
+      "height": 44
+    }
+  },
+  "exampleData": {
+    "identity": {
+      "displayName": "Son Nguyen",
+      "handle": "SonNguyen534804",
+      "joinedText": "Joined September 2025",
+      "following": 0,
+      "followers": 0
+    },
+    "statistics": [
+      {
+        "icon": "flame",
+        "value": 0,
+        "label": "Day streak"
+      },
+      {
+        "icon": "bolt",
+        "value": 0,
+        "label": "Total XP"
+      },
+      {
+        "icon": "shield",
+        "value": "None",
+        "label": "Current league"
+      },
+      {
+        "icon": "medal",
+        "value": 0,
+        "label": "Top 3 finishes"
+      }
+    ],
+    "achievements": [
+      {
+        "id": "wildfire",
+        "name": "Wildfire",
+        "progress": {
+          "current": 0,
+          "total": 3
+        },
+        "state": "locked"
+      }
+    ]
+  }
+}

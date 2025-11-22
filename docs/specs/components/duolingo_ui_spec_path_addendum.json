@@ -1,0 +1,266 @@
+{
+  "meta": {
+    "title": "Duolingo Lesson Path — Deep Spec Addendum",
+    "version": "1.0.0",
+    "created_at": "2025-09-26T06:20:37.140089Z",
+    "applies_to": "duolingo_ui_spec.json:components.LessonPath + new components"
+  },
+  "coords_reference": {
+    "viewport": [1440, 900],
+    "origin": "top-left",
+    "centerline_x": 720,
+    "header_height": 92,
+    "content_top": 116
+  },
+  "colors_exactish": {
+    "node_locked_bg": "#2C3B45",
+    "node_locked_star": "#8CA0AD",
+    "node_ring_outer": "#334651",
+    "node_ring_inner": "#1E2C35",
+    "start_core_green": "#7FE318",
+    "start_core_shadow": "rgba(0,0,0,0.45)",
+    "start_label_bg": "#1D2A33",
+    "start_label_text": "#9BF244",
+    "mascot_green": "#58CC02",
+    "mascot_shadow": "rgba(0,0,0,0.35)",
+    "chest_body": "#6E8A99",
+    "jump_chip_bg": "#2B3340",
+    "jump_label_text": "#CFAAFF",
+    "jump_button_bg": "#C37DFF",
+    "jump_button_face": "#F2E6FF",
+    "fab_bg": "#12222B",
+    "fab_icon": "#46D5FF"
+  },
+  "z_index": {
+    "path_nodes": 10,
+    "mascot": 12,
+    "jump_cta": 14,
+    "header": 20,
+    "fab": 30
+  },
+  "geometry": {
+    "node": {
+      "size": 88,
+      "radius": 44,
+      "spacing_y": 160,
+      "shadow": "0 10px 0 rgba(0,0,0,0.25)"
+    },
+    "start_node": {
+      "core_size": 64,
+      "ring_outer": 96,
+      "ring_inner": 80,
+      "label_chip": {
+        "height": 40,
+        "padding_x": 16,
+        "radius": 10,
+        "gap_arrow": 6,
+        "offset_y": -54
+      }
+    },
+    "mascot": {
+      "size": [140, 132],
+      "offset_x": 140,
+      "offset_y": 28,
+      "shadow": "0 12px 0 rgba(0,0,0,0.35)"
+    },
+    "checkpoint_chest": {
+      "size": [104, 78],
+      "lock_size": 18,
+      "offset_y": 0
+    },
+    "jump_cta": {
+      "chip": {
+        "height": 44,
+        "radius": 12,
+        "padding_x": 16,
+        "text_size": 16,
+        "font_weight": 800,
+        "shadow": "0 2px 0 rgba(0,0,0,0.4)"
+      },
+      "button": {
+        "diameter": 74,
+        "radius": 37,
+        "shadow": "0 10px 0 rgba(0,0,0,0.35)",
+        "icon": {
+          "type": "fast-forward",
+          "size": 28
+        }
+      },
+      "spacing": {
+        "chip_to_button": 14,
+        "button_to_node": 18
+      }
+    },
+    "scroll_top_fab": {
+      "diameter": 64,
+      "radius": 16,
+      "position": {
+        "bottom": 24,
+        "right": 24
+      },
+      "border": "1px solid rgba(255,255,255,0.08)",
+      "shadow": "0 10px 0 rgba(0,0,0,0.35)",
+      "icon_size": 22
+    }
+  },
+  "layout_instances": [
+    {
+      "name": "cluster_1_start",
+      "center": [720, 260],
+      "nodes": [
+        {
+          "type": "start",
+          "center": [720, 260]
+        },
+        {
+          "type": "locked",
+          "center": [720, 420]
+        },
+        {
+          "type": "checkpoint",
+          "center": [720, 580]
+        },
+        {
+          "type": "locked",
+          "center": [720, 740]
+        },
+        {
+          "type": "badge_locked",
+          "center": [720, 900]
+        }
+      ],
+      "mascot_anchor_node_index": 0,
+      "mascot_pos": [860, 318]
+    },
+    {
+      "name": "cluster_2_jump",
+      "center": [720, 1600],
+      "label_row": {
+        "y": 1440,
+        "left_rule_x": 72,
+        "right_rule_x": 1368,
+        "section_titles": [
+          {
+            "text": "Order drinks",
+            "x": 720,
+            "align": "center",
+            "opacity": 0.7,
+            "size": 18
+          }
+        ]
+      },
+      "jump_cta": {
+        "chip_center": [720, 1528],
+        "button_center": [720, 1590],
+        "target_node_index": 2
+      },
+      "nodes": [
+        {
+          "type": "locked",
+          "center": [720, 1670]
+        },
+        {
+          "type": "checkpoint",
+          "center": [720, 1830]
+        },
+        {
+          "type": "locked",
+          "center": [720, 1990]
+        }
+      ]
+    }
+  ],
+  "states": {
+    "node": {
+      "locked": {
+        "bg": "colors_exactish.node_locked_bg",
+        "icon": {
+          "name": "star",
+          "color": "colors_exactish.node_locked_star",
+          "opacity": 0.9
+        },
+        "ring": {
+          "outer": "colors_exactish.node_ring_outer",
+          "inner": "colors_exactish.node_ring_inner"
+        }
+      },
+      "checkpoint_locked": {
+        "sprite": "chest",
+        "tint": "colors_exactish.chest_body",
+        "lock_overlay": true
+      },
+      "start_available": {
+        "core": "colors_exactish.start_core_green",
+        "ring_glow": "0 0 0 8px rgba(127, 227, 24, 0.35)",
+        "star": {
+          "color": "#FFFFFF"
+        },
+        "pulse_anim": {
+          "type": "scale",
+          "values": [1, 1.06, 1],
+          "duration_ms": 1100,
+          "loop": true
+        }
+      },
+      "hover": {
+        "scale": 1.02,
+        "cursor": "pointer"
+      },
+      "pressed": {
+        "translateY": 2
+      }
+    },
+    "jump_cta": {
+      "visible_when": ["user_has_prior_skill_progress", "node_locked", "ab_test:jump_cta_enabled"],
+      "chip": {
+        "text": "JUMP HERE?",
+        "bg": "colors_exactish.jump_chip_bg",
+        "text_color": "colors_exactish.jump_label_text",
+        "border": "1px solid rgba(255,255,255,0.08)"
+      },
+      "button": {
+        "bg": "colors_exactish.jump_button_bg",
+        "face": "colors_exactish.jump_button_face",
+        "icon": "fast-forward",
+        "hover_raise": 4,
+        "pressed_drop": 8,
+        "sound": "assets.sounds.click"
+      },
+      "logic": {
+        "on_click": [
+          "open_modal('skill_jump_explainer')",
+          "cta_telemetry('jump_cta_clicked', {cluster: current_cluster_id})"
+        ]
+      }
+    },
+    "scroll_top_fab": {
+      "appear_after_scroll_y": 800,
+      "bg": "colors_exactish.fab_bg",
+      "icon": {
+        "name": "arrow-up",
+        "color": "colors_exactish.fab_icon"
+      },
+      "hover": {
+        "scale": 1.04
+      },
+      "pressed": {
+        "scale": 0.98
+      },
+      "on_click": "smooth_scroll_to(0, duration_ms=300)"
+    }
+  },
+  "a11y": {
+    "tab_order": ["start_node", "next_locked_node", "checkpoint_chest", "jump_chip", "jump_button", "scroll_top_fab"],
+    "aria": {
+      "start_node": "Start lesson. Introduce yourself.",
+      "locked_node": "Locked lesson. Earn stars to unlock.",
+      "checkpoint": "Locked checkpoint chest.",
+      "jump_chip": "Jump suggestion, opens explanation",
+      "jump_button": "Jump to this section",
+      "scroll_top": "Back to top"
+    }
+  },
+  "telemetry": {
+    "events": ["jump_cta_seen", "jump_cta_clicked", "start_clicked", "locked_shake", "fab_used"]
+  }
+}

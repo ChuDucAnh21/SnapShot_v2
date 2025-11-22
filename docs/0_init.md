@@ -1,0 +1,43 @@
+## General Target
+
+- Phát triển AI-Hybrid Application
+  - Thê hệ ứng dụng mới là sử kết hợp giữa app truyền thống và 1 phần AI sao cho
+    - Tùy biến nội dung linh hoạt hơn
+      - Nắm bắt được ngữ cảnh: đọc + hiểu nguồn dữ liệu 1 cách tự động
+      - Tương tác đa hình thái: on-screen vs off-screen
+    - Cá nhân hóa cấp độ cao hơn
+      - Xây dựng lộ trình cá nhân hóa
+      - Điều chỉnh để xoáy sâu vào đặc điểm cá nhân
+    - Chi phí phù hợp
+      - Cần phải trả chi phí để sử dụng
+        -> Buộc phải sử dụng thay thế cho các chức năng mang lại giá trị tức thời
+        -> Thay thế cho các loại hình dịch vụ có phí khác
+        -> Không thể tồn tại mô hình dạng distraction như quảng cáo
+  - Cần xây dựng AI-Hybrid-App Factory
+    - Để liên tục thử nghiệm, sản xuất AI-Hybrid-App ở nhiều domain khác nhau
+      - Để tìm ra mảng có thể đứng chân lâu dài
+      - AI-Hybrid-App có cùng pattern
+    - Pattern của AI-Hybrid-App
+      - Frontend: linh hoạt, gọn nhẹ, đa nền tảng
+        - Core PWA đa nền tảng
+        - Plugin vào gọn nhẹ vào các hệ sinh thái khác
+        - Không phụ thuộc vào policy nền tảng
+      - Backend: tinh gọn, packageable
+        - Easy to deploy and scale on different kind of ENV
+        - Self-contained loosely-coupling modules
+      - AI: hybrid between online-API vs offline-cache to advanced self-customized models
+        - Tận dụng foundation model với Prompting engineer
+        - Tận dụng tối ưu giữa caching + model-API switching
+        - Khi caching large enough -> build task-based prediction model truyền thống
+          - Thực sự cần phải hiệu quả hơn Foundation Model: determinstics, low-running cost
+          - Tạo niche advantage so với competitor
+    - Chuẩn ghép nối với các bên trong 1 business-cycle
+      - Ghép nối với Business-Model
+        - Kinh doanh cái gì, cho đối tượng nào, cần phải tùy chỉnh tính chất gì, tập trung vào các chỉ số core gì
+      - Ghép nối với Content-Template
+        - Kịch bản nội dung lõi là gì
+        - User-interaction-loop là gì
+      - Management-Tool
+        - Quản lý user, business
+        - Quản lý content
+        - Phối hợp với AI-model để boost business
