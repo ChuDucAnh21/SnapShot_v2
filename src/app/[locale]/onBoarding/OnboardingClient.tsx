@@ -82,8 +82,8 @@ export default function OnBoardingClient() {
         exit={{ opacity: 0 }}
         transition={{ duration: 1.2 }}
         className="flex min-h-screen flex-col items-center justify-center
-                   bg-[url('@/assets/background/bgOnboarding.svg')]
                    bg-cover bg-center bg-no-repeat text-white"
+        style={{ backgroundImage: 'url(\'/bgOnboarding.svg\')' }}
       >
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
@@ -105,8 +105,8 @@ export default function OnBoardingClient() {
       animate={{ opacity: 1 }}
       transition={{ duration: 1 }}
       className="flex pt-20 sm:pt-0 min-h-screen flex-col items-center
-                 bg-[url('@/assets/background/bgOnboarding.svg')]
                  bg-cover bg-center bg-no-repeat text-white"
+      style={{ backgroundImage: 'url(\'/bgOnboarding.svg\')' }}
     >
       {/* HEADER */}
       {showHeader && (

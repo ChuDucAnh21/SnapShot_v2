@@ -82,16 +82,6 @@ export default function SelectSubjectClient() {
       {/* Header */}
       <header className="hidden items-center justify-center sm:flex">
         <div className="flex items-center">
-          {/* <div
-            className="h-[40px] w-[40px] rounded-full bg-cover bg-center bg-no-repeat "
-            style={{
-              backgroundImage:
-                kidCurrent.gender === 'male'
-                  ? 'url(\'@/assets/avata/avataChildMale.svg\')'
-                  : 'url(\'@/assets/avata/avataChildFemale.svg\')',
-            }}
-          >
-          </div> */}
           <Image
             alt="avate"
             src={kidCurrent.gender === 'male' ? AvataChildMale : AvataChildFemale}

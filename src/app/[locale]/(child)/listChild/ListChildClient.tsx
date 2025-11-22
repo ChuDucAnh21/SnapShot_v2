@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { IrukaQuesstion } from '@/assets';
+import { AvataChildFemale, AvataChildMale, IrukaQuesstion } from '@/assets';
 
 type Kid = {
   child_id: string;
@@ -83,9 +83,12 @@ export default function ListChildClient() {
                 }`}
                 >
                   <div className="text-3xl">
-                    {kid.gender === 'male'
-                      ? <div className="h-[50px] w-[50px] rounded-full bg-white bg-[url('@/assets/avata/avataChildFemale.svg')] bg-cover bg-center bg-no-repeat"></div>
-                      : <div className="h-[50px] w-[50px] rounded-full bg-white bg-[url('@/assets/avata/avataChildMale.svg')] bg-cover bg-center bg-no-repeat"></div>}
+                    <Image
+                      src={kid.gender === 'male' ? AvataChildMale : AvataChildFemale}
+                      alt="Avatar Bé"
+                      width={50}
+                      height={50}
+                    />
                   </div>
 
                   <div className="flex items-center gap-3 text-left">

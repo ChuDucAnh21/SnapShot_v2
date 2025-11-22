@@ -29,20 +29,26 @@ const toggleVariants = cva(
   },
 );
 
-function Toggle({
-  className,
-  variant,
-  size,
-  ...props
-}: React.ComponentProps<typeof TogglePrimitive.Root>
-  & VariantProps<typeof toggleVariants>) {
+// ---- định nghĩa props riêng cho Toggle ----
+type ToggleProps = React.ButtonHTMLAttributes<HTMLButtonElement>
+  & VariantProps<typeof toggleVariants> & {
+    className?: string;
+  };
+
+// cast Root để TS không soi type của lib nữa
+const ToggleRoot = TogglePrimitive.Root as React.ElementType;
+
+const Toggle = ({ ref, className, variant, size, ...props }: ToggleProps & { ref?: React.RefObject<HTMLButtonElement | null> }) => {
   return (
-    <TogglePrimitive.Root
+    <ToggleRoot
+      ref={ref}
       data-slot="toggle"
       className={cn(toggleVariants({ variant, size, className }))}
       {...props}
     />
   );
-}
+};
+
+Toggle.displayName = 'Toggle';
 
 export { Toggle, toggleVariants };
